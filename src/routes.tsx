@@ -7,6 +7,7 @@ import Home from "./components/Home/Home";
 
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import AdminPanel from "./components/AdminPanel/AdminPanel";
+import Register from "./components/Register/Register";
 
 export const router = createHashRouter([
   {
@@ -28,6 +29,10 @@ export const router = createHashRouter([
       {
         path: "/prijava",
         element: <LogIn />,
+      },
+      {
+        path: "/registracija",
+        element: <Register />,
       },
       {
         path: '/admin/panel',

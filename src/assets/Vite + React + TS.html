@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<!-- saved from url=(0036)http://localhost:5173/#/po%C4%8Detna -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <script type="module">
+import RefreshRuntime from "/@react-refresh"
+RefreshRuntime.injectIntoGlobalHook(window)
+window.$RefreshReg$ = () => {}
+window.$RefreshSig$ = () => (type) => type
+window.__vite_plugin_react_preamble_installed__ = true
+</script>
+
+    <script type="module" src="./Vite + React + TS_files/client"></script>
+
+    
+    <link rel="icon" type="image/svg+xml" href="http://localhost:5173/vite.svg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vite + React + TS</title>
+  <style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/index.css"></style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/App.css">* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  .container-fluid {
+    overflow-x: hidden;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: relative;
+    scroll-behavior: smooth;
+  }</style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/components/Header/Header.css">.header-container {
+  background-color: #1abc9c;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+}
+
+.logo-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-left: 50px;
+}
+
+.logo-container h1 {
+  cursor: pointer;
+}
+
+.logo-picture {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
+}
+
+.search-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 16px !important;
+}
+
+.search-icon-container {
+  position: relative;
+  right: 50px;
+}
+
+.header-menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 10%;
+}
+
+.cart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-container,
+.login-container,
+.contact-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
+}
+
+/* Za vrlo male uređaje (telefoni, manje od 576px) */
+@media (max-width: 575.98px) {
+    .header-container {
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        
+      }
+    
+      .logo-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+      }
+      
+      .search-container{
+        margin-left: 25px;
+        width: 360px;
+      }
+    
+      .cart-container label,
+      .login-container label,
+      .contact-container label {
+        display: none;
+      }
+
+      .header-menu-container{
+        display: flex;
+        justify-content: space-between;
+        width: 330px;
+        margin-bottom: 10px;
+      }
+}
+
+/* Za male uređaje (telefoni u portret modu, 576px i više) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .header-container {
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+      }
+    
+      .logo-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+      }
+      
+      .search-container{
+        margin-left: 25px;
+        width: 360px;
+      }
+    
+      .cart-container label,
+      .login-container label,
+      .contact-container label {
+        display: none;
+      }
+
+      .header-menu-container{
+        display: flex;
+        justify-content: space-between;
+        width: 330px;
+        margin-bottom: 10px;
+      }
+}
+
+/* Za srednje uređaje (tableti, 768px i više) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .header-container {
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+      }
+    
+      .logo-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+      }
+      
+      .search-container{
+        margin-left: 25px;
+        width: 360px;
+      }
+    
+      .cart-container label,
+      .login-container label,
+      .contact-container label {
+        display: none;
+      }
+
+      .header-menu-container{
+        display: flex;
+        justify-content: space-between;
+        width: 330px;
+        margin-bottom: 10px;
+      }
+}
+
+/* Za velike uređaje (veći tableti ili mali laptopovi, 992px i više) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .header-container {
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+      }
+    
+      .logo-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+      }
+      
+      .search-container{
+        margin-left: 25px;
+        width: 360px;
+      }
+    
+      .cart-container label,
+      .login-container label,
+      .contact-container label {
+        display: none;
+      }
+
+      .header-menu-container{
+        display: flex;
+        justify-content: space-between;
+        width: 330px;
+        margin-bottom: 10px;
+      }
+}
+
+/* Za vrlo velike uređaje (desktop računari, 1200px i više) */
+@media (min-width: 1200px) and (max-width: 1400px){
+    .header-container{
+        padding: 20px;
+    }
+    .logo-container{
+        padding: 0;
+    }
+}
+</style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/components/Footer/Footer.css">.footer-container {
+    background-color: black;
+    color: white;
+    padding: 20px;
+}
+
+.footer-wrapper {
+    display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.contact-wrapper, .socials-wrapper, .adress-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    margin-right: 120px;
+}
+
+.icons-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+
+.icon {
+    color: white;
+}
+
+.footer-bottom{
+    margin-top: 20px;
+    text-align: center;
+}
+
+@media (max-width: 910px) {
+    .footer-wrapper {
+      gap: 30px;
+    }
+
+    .contact-wrapper, .socials-wrapper, .adress-wrapper{
+        margin: 0;
+        
+    }
+}
+
+@media (max-width: 768px) {
+    .footer-wrapper {
+      flex-direction: column;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .contact-wrapper, .socials-wrapper, .adress-wrapper{
+        margin: 0;
+        display: flex;
+        justify-content: center;
+        
+    }
+  
+    .footer-section {
+      margin: 10px 0;
+    }
+  }</style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/components/Cart/Cart.css"></style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/components/Contact/Contact.css"></style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/components/LogIn/LogIn.css"></style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/components/Home/Home.css">.home-container{
+    width: 100%;
+    min-height: 45vw;
+}</style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/components/AdminPanel/AdminPanel.css"></style><style data-emotion="css" data-s="">.css-a0zhwd-MuiSvgIcon-root{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;fill:currentColor;font-size:1.5rem;font-size:30px;}</style><style data-emotion="css" data-s="">.css-dzrap2-MuiSvgIcon-root{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;width:1em;height:1em;display:inline-block;-webkit-flex-shrink:0;-ms-flex-negative:0;flex-shrink:0;-webkit-transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;transition:fill 200ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;fill:currentColor;font-size:1.5rem;font-size:40px;}</style><style type="text/css" data-vite-dev-id="C:/Users/rados/web-shop-model/src/components/Register/Register.css"></style></head>
+  <body>
+    <div id="root"><div class="container-fluid"><div class="header-container"><div class="logo-container"><img src="./Vite + React + TS_files/Logo.png" alt="Ovde ide slika" class="logo-picture"><h1>Lion company</h1></div><div class="search-container"><input class="search-input" type="text" placeholder="Pretrazite ovde"><div class="search-icon-container"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-a0zhwd-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="SearchOutlinedIcon"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14"></path></svg></div></div><div class="header-menu-container"><div class="cart-container"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-dzrap2-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="ShoppingCartOutlinedIcon"><path d="M15.55 13c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.37-.66-.11-1.48-.87-1.48H5.21l-.94-2H1v2h2l3.6 7.59-1.35 2.44C4.52 15.37 5.48 17 7 17h12v-2H7l1.1-2zM6.16 6h12.15l-2.76 5H8.53zM7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2m10 0c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2"></path></svg><label>Korpa</label></div><div class="login-container"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-dzrap2-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="AccountCircleOutlinedIcon"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2M7.35 18.5C8.66 17.56 10.26 17 12 17s3.34.56 4.65 1.5c-1.31.94-2.91 1.5-4.65 1.5s-3.34-.56-4.65-1.5m10.79-1.38C16.45 15.8 14.32 15 12 15s-4.45.8-6.14 2.12C4.7 15.73 4 13.95 4 12c0-4.42 3.58-8 8-8s8 3.58 8 8c0 1.95-.7 3.73-1.86 5.12"></path><path d="M12 6c-1.93 0-3.5 1.57-3.5 3.5S10.07 13 12 13s3.5-1.57 3.5-3.5S13.93 6 12 6m0 5c-.83 0-1.5-.67-1.5-1.5S11.17 8 12 8s1.5.67 1.5 1.5S12.83 11 12 11"></path></svg><label>Prijava</label></div><div class="contact-container"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-dzrap2-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="PhoneOutlinedIcon"><path d="M6.54 5c.06.89.21 1.76.45 2.59l-1.2 1.2c-.41-1.2-.67-2.47-.76-3.79zm9.86 12.02c.85.24 1.72.39 2.6.45v1.49c-1.32-.09-2.59-.35-3.8-.75zM7.5 3H4c-.55 0-1 .45-1 1 0 9.39 7.61 17 17 17 .55 0 1-.45 1-1v-3.49c0-.55-.45-1-1-1-1.24 0-2.45-.2-3.57-.57-.1-.04-.21-.05-.31-.05-.26 0-.51.1-.71.29l-2.2 2.2c-2.83-1.45-5.15-3.76-6.59-6.59l2.2-2.2c.28-.28.36-.67.25-1.02C8.7 6.45 8.5 5.25 8.5 4c0-.55-.45-1-1-1"></path></svg><label>Kontakt</label></div></div></div><div class="home-container"><h1>Home page</h1></div><div class="footer-container"><div class="footer-wrapper"><div class="contact-wrapper"><h2>Kontakt:</h2><p>E-mail: web.shopg@gmail.com</p><p>Telefon: 069 123456</p></div><div class="socials-wrapper"><h2>Zapratite nas:</h2><div class="icons-wrapper"><a href="http://localhost:5173/link%20ka%20instagramu"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium icon css-dzrap2-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="FacebookIcon"><path d="M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2m13 2h-2.5A3.5 3.5 0 0 0 12 8.5V11h-2v3h2v7h3v-7h3v-3h-3V9a1 1 0 0 1 1-1h2V5z"></path></svg></a><a href="http://localhost:5173/link%20ka%20facebook-u"><svg class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium icon css-dzrap2-MuiSvgIcon-root" focusable="false" aria-hidden="true" viewBox="0 0 24 24" data-testid="InstagramIcon"><path d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path></svg></a></div></div><div class="adress-wrapper"><h2>Adresa:</h2><p>Petra Petrovica 10</p></div></div><div class="footer-bottom"><p>© 2024 SN. All rights reserved.</p></div></div></div></div>
+    <script type="module" src="./Vite + React + TS_files/main.tsx"></script>
+  
+
+</body></html>
