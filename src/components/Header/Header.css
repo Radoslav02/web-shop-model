@@ -15,12 +15,16 @@
     align-items: center;
     gap: 20px;
     padding-left: 50px;
+}
+
+.logo-container h1{
     cursor: pointer;
 }
 
 .logo-picture{
     width: 100px;
     height: 100px;
+    cursor: pointer;
 }
 
 .search-container{

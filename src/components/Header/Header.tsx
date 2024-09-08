@@ -11,13 +11,14 @@ export default function Header() {
   
   return (
     <div className="header-container" >
-      <div className="logo-container" onClick={() => navigate("/")}>
+      <div className="logo-container" >
         <img
           src="src/assets/Logo.png"
           alt="Ovde ide slika"
           className="logo-picture"
+          onClick={() => navigate("/početna")}
         />
-        <h1>Lion company</h1>
+        <h1 onClick={() => navigate("/početna")}>Lion company</h1>
       </div>
       <div className="search-container">
         <input
