@@ -1,77 +1,236 @@
-.header-container{
-    background-color: #1ABC9C;
-    height: 100px;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
+.header-container {
+  background-color: #1abc9c;
+  height: 100px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
 }
 
-.logo-container{
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    padding-left: 50px;
+.logo-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-left: 50px;
 }
 
-.logo-container h1{
-    cursor: pointer;
+.logo-container h1 {
+  cursor: pointer;
 }
 
-.logo-picture{
-    width: 100px;
-    height: 100px;
-    cursor: pointer;
+.logo-picture {
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
 }
 
-.search-container{
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    padding: 0;
-    margin: 0;
-    justify-content: center;
+.search-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  justify-content: center;
 }
 
-.search-input{
-    width: 100%;
-    height: 40px;
-    border-radius: 20px;
-    border: 1px solid black;
-    padding: 10px;
-    font-size: 16px !important;
+.search-input {
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  border: 1px solid black;
+  padding: 10px;
+  font-size: 16px !important;
 }
 
-.search-icon-container{
-    position: relative;
-    right: 50px;
-
+.search-icon-container {
+  position: relative;
+  right: 50px;
 }
 
-.header-menu-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 100%;
-    gap: 10%;
+.header-menu-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 10%;
 }
 
-.cart-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.cart-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.cart-container, .login-container, .contact-container{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 5px;
-    cursor: pointer;
+.cart-container,
+.login-container,
+.contact-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  cursor: pointer;
 }
 
+/* Za vrlo male uređaje (telefoni, manje od 576px) */
+@media (max-width: 575.98px) {
+    .header-container {
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+        
+      }
+    
+      .logo-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+      }
+      
+      .search-container{
+        margin-left: 25px;
+        width: 360px;
+      }
+    
+      .cart-container label,
+      .login-container label,
+      .contact-container label {
+        display: none;
+      }
+
+      .header-menu-container{
+        display: flex;
+        justify-content: space-between;
+        width: 330px;
+        margin-bottom: 10px;
+      }
+}
+
+/* Za male uređaje (telefoni u portret modu, 576px i više) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .header-container {
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+      }
+    
+      .logo-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+      }
+      
+      .search-container{
+        margin-left: 25px;
+        width: 360px;
+      }
+    
+      .cart-container label,
+      .login-container label,
+      .contact-container label {
+        display: none;
+      }
+
+      .header-menu-container{
+        display: flex;
+        justify-content: space-between;
+        width: 330px;
+        margin-bottom: 10px;
+      }
+}
+
+/* Za srednje uređaje (tableti, 768px i više) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .header-container {
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+      }
+    
+      .logo-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+      }
+      
+      .search-container{
+        margin-left: 25px;
+        width: 360px;
+      }
+    
+      .cart-container label,
+      .login-container label,
+      .contact-container label {
+        display: none;
+      }
+
+      .header-menu-container{
+        display: flex;
+        justify-content: space-between;
+        width: 330px;
+        margin-bottom: 10px;
+      }
+}
+
+/* Za velike uređaje (veći tableti ili mali laptopovi, 992px i više) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .header-container {
+        flex-direction: column;
+        gap: 0;
+        min-height: 200px;
+        display: flex;
+        align-items: center;
+      }
+    
+      .logo-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0;
+        padding: 0;
+      }
+      
+      .search-container{
+        margin-left: 25px;
+        width: 360px;
+      }
+    
+      .cart-container label,
+      .login-container label,
+      .contact-container label {
+        display: none;
+      }
+
+      .header-menu-container{
+        display: flex;
+        justify-content: space-between;
+        width: 330px;
+        margin-bottom: 10px;
+      }
+}
+
+/* Za vrlo velike uređaje (desktop računari, 1200px i više) */
+@media (min-width: 1200px) and (max-width: 1400px){
+    .header-container{
+        padding: 20px;
+    }
+    .logo-container{
+        padding: 0;
+    }
+}

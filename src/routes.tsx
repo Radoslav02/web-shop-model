@@ -5,6 +5,9 @@ import ContactUs from "./components/Contact/Contact";
 import LogIn from "./components/LogIn/LogIn";
 import Home from "./components/Home/Home";
 
+import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import AdminPanel from "./components/AdminPanel/AdminPanel";
+
 export const router = createHashRouter([
   {
     path: "/",
@@ -25,6 +28,16 @@ export const router = createHashRouter([
       {
         path: "/prijava",
         element: <LogIn />,
+      },
+      {
+        path: '/admin/panel',
+        element: <PrivateRoute />, // Zaštiti /admin/panel koristeći PrivateRoute
+        children: [
+          {
+            path: '',
+            element: <AdminPanel />,
+          },
+        ],
       },
     ],
   },
