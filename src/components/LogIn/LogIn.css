@@ -1,0 +1,72 @@
+.login-page-container {
+  min-height: 40vw;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #d1d1d16f;
+}
+
+.login-page-form {
+  border: 1px solid black;
+  height: 20vw;
+  width: 30%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  background-color: white;
+}
+
+.login-page-password-wapper,
+.login-page-email-wapper {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  height: 60px;
+  width: 250px;
+}
+
+.password-input {
+  height: 30px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: 0.5px solid black;
+}
+
+.email-input {
+  height: 30px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: 0.5px solid black;
+}
+
+.login-page-button-wapper {
+  width: 200px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.login-button {
+  height: 25px;
+  background-color: #1abc9c;
+  width: 80px;
+  border-radius: 5px;
+  border: 0.5px solid black;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.register-button {
+  height: 25px;
+  background-color: white;
+  width: 80px;
+  border-radius: 5px;
+  border: 0.5px solid black;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}

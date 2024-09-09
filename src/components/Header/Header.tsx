@@ -4,47 +4,50 @@ import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { useNavigate } from "react-router-dom";
+import { useSelector } from 'react-redux';
+import { RootState } from "../Redux/store";
 
 export default function Header() {
-
   const navigate = useNavigate();
-  
+
+  // Pristupi Redux stanju
+  const user = useSelector((state: RootState) => state.auth.user);
+
   return (
-    <div className="header-container" >
-      <div className="logo-container" >
+    <div className="header-container">
+      <div className="logo-container">
         <img
           src="src/assets/Logo.png"
           alt="Ovde ide slika"
           className="logo-picture"
           onClick={() => navigate("/početna")}
         />
-        <h1 onClick={() => navigate("/početna")}>Lion company</h1>
+        <h1 onClick={() => navigate("/početna")}>My company</h1>
       </div>
       <div className="search-container">
         <input
           className="search-input"
           type="text"
-          placeholder="Pretrazite ovde"
+          placeholder="Pretražite ovde"
         />
         <div className="search-icon-container">
           <SearchOutlinedIcon sx={{ fontSize: 30 }} />
         </div>
-        
       </div>
       <div className="header-menu-container">
-            <div className="cart-container" onClick={() => navigate("/korpa")} >
-              <ShoppingCartOutlinedIcon sx={{ fontSize: 40 }}/>
-              <label>Korpa</label>
-            </div>
-            <div className="login-container" onClick={() => navigate("/prijava")}>
-              <AccountCircleOutlinedIcon sx={{ fontSize: 40 }}/>
-              <label>Prijava</label>
-            </div>
-            <div className="contact-container" onClick={() => navigate("/kontakt")}>
-              <PhoneOutlinedIcon sx={{ fontSize: 40 }}/>
-              <label>Kontakt</label>
-            </div>
+        <div className="cart-container" onClick={() => navigate("/korpa")}>
+          <ShoppingCartOutlinedIcon sx={{ fontSize: 40 }} />
+          <label>Korpa</label>
         </div>
+        <div className="login-container" onClick={() => navigate(user ? "/profil" : "/prijava")}>
+          <AccountCircleOutlinedIcon sx={{ fontSize: 40 }} />
+          <label>{user ? 'Profil' : 'Prijava'}</label>
+        </div>
+        <div className="contact-container" onClick={() => navigate("/kontakt")}>
+          <PhoneOutlinedIcon sx={{ fontSize: 40 }} />
+          <label>Kontakt</label>
+        </div>
+      </div>
     </div>
   );
 }

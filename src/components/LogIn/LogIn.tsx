@@ -1,90 +1,92 @@
-import { useState } from 'react';
-import { auth } from '../firebase';
-import { signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
+import { useState } from "react";
+import { auth, db } from "../firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { login } from "../Redux/authSlice";
+import "./LogIn.css";
 
-interface LoginFormProps {
-  onLoginSuccess: () => void;
-}
-
-const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [resetMessage, setResetMessage] = useState<string | null>(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setErrorMessage(null);  // Reset error message
-
+    setErrorMessage(null);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
-      console.log('User logged in successfully');
-      onLoginSuccess(); // Call the success callback
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user;
+
+      const userDocRef = doc(db, "users", user.uid);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (userDocSnap.exists()) {
+        const userData = userDocSnap.data();
+        dispatch(login({ email: user.email!, isAdmin: userData.isAdmin }));
+
+        if (userData.isAdmin) {
+          navigate("/admin/panel");
+        } else {
+          navigate("/početna");
+        }
+      } else {
+        setErrorMessage("User data not found in database.");
+      }
     } catch (error) {
       if (error instanceof Error) {
         setErrorMessage(`Login failed: ${error.message}`);
       } else {
-        setErrorMessage('An unknown error occurred. Please try again.');
-      }
-    }
-  };
-
-  const handlePasswordReset = async () => {
-    setResetMessage(null); // Reset any previous message
-    setErrorMessage(null); // Reset error message
-
-    if (!email) {
-      setErrorMessage('Please enter your email to reset your password.');
-      return;
-    }
-
-    try {
-      await sendPasswordResetEmail(auth, email);
-      setResetMessage('Password reset email sent! Check your inbox.');
-    } catch (error) {
-      if (error instanceof Error) {
-        setErrorMessage(`Failed to send reset email: ${error.message}`);
-      } else {
-        setErrorMessage('An unknown error occurred. Please try again.');
+        setErrorMessage("An unknown error occurred. Please try again.");
       }
     }
   };
 
   return (
-    <div>
-      <form onSubmit={handleLogin}>
-        <div>
+    <div className="login-page-container">
+      <form className="login-page-form" onSubmit={handleLogin}>
+        <div className="login-page-email-wapper">
           <label>Email:</label>
           <input
+            className="email-input"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
         </div>
-        <div>
+        <div className="login-page-password-wapper">
           <label>Password:</label>
           <input
+            className="password-input"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <div className="login-page-button-wapper">
+          <button className="login-button" type="submit">
+            Prijavi se
+          </button>
+          <button
+            className="register-button"
+            onClick={() => navigate("/registracija")}
+          >
+            Registruj se
+          </button>
+        </div>
       </form>
-      
-      {/* Display error message */}
       {errorMessage && <div className="error">{errorMessage}</div>}
-
-      {/* Password Reset Section */}
-      <div>
-        <button onClick={handlePasswordReset}>Forgot Password?</button>
-        {/* Display reset message */}
-        {resetMessage && <div className="reset-message">{resetMessage}</div>}
-      </div>
     </div>
   );
 };
 
-export default LoginForm;
+export default LoginPage;
