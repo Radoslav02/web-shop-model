@@ -76,6 +76,10 @@
   cursor: pointer;
 }
 
+.header-menu-label{
+  cursor: pointer;
+}
+
 /* Za vrlo male uređaje (telefoni, manje od 576px) */
 @media (max-width: 575.98px) {
     .header-container {

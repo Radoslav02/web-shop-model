@@ -1,58 +1,179 @@
-.register-container{
-    background-color: white;
-    min-height: 50vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.register-container {
+  min-height: 45vw;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #d1d1d16f;
 }
 
-.registration-form{
-    width: 50%;
-    height: 500px;
-    background-color: white;
+.register-form {
+  border: 1px solid black;
+  min-height: 600px;
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  background-color: white;
+  padding: 30px;
+}
+
+.register-form h2 {
+  padding: 20px;
+}
+
+.register-input-wrapper {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.register-input {
+  height: 30px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: 0.5px solid black;
+  padding: 5px;
+  width: 250px;
+}
+
+.register-page-button {
+  height: 30px !important;
+  background-color: #1abc9c;
+  width: 90px;
+  border-radius: 5px;
+  border: 0.5px solid black;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.register-page-button:hover {
+  background-color: #09e0b5;
+  cursor: pointer;
+}
+
+.register-wrapper {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  gap: 30px;
+}
+
+.inputs-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+  padding: 10px;
+  height: 100%;
+}
+
+/* Za vrlo male uređaje (telefoni, manje od 576px) */
+@media (max-width: 575.98px) {
+  .register-container {
+    min-height: 100vw;
+  }
+
+  .register-form {
+    min-height: 900px;
+    width: 350px;
+  }
+  .register-wrapper {
     display: flex;
     align-items: center;
-    justify-content: center;
     flex-direction: column;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
-    border-radius: 10px;
-    border: 1px solid black;
-}
-
-.registration-form h2{
-    text-align: center;
-    padding-bottom: 20px;
-}
-
-.register-form-group{
-    display: flex;
-    width: 50%;
-    align-items: center;
-    justify-content: space-between;
-    height: 50px;
-}
-
-.register-form-group input{
-    height: 30px;
-    background-color: #F2FDFB;
-    border: 1px solid black;
-    border-radius: 10px;
-}
-
-.email-pass-form-group{
-    display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 50%;
-    height: 120px;
     gap: 20px;
+  }
+
+  .inputs-wrapper {
+    gap: 20px;
+  }
 }
 
-.email-pass-form-group input{
-    width: 100%;
-    height: 30px;
-    background-color: #F2FDFB;
-    border: 1px solid black;
-    border-radius: 10px;
+/* Za male uređaje (telefoni u portret modu, 576px i više) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .register-container {
+    min-height: 100vw;
+  }
+
+  .register-form {
+    min-height: 800px;
+    width: 450px;
+  }
+  .register-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 30px;
+  }
+
+  .inputs-wrapper {
+    gap: 30px;
+  }
+}
+
+/* Za srednje uređaje (tableti, 768px i više) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .register-container {
+    min-height: 90vw;
+  }
+
+  .register-form {
+    min-height: 800px;
+    width: 500px;
+  }
+
+  .register-wrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .inputs-wrapper {
+    gap: 20px;
+  }
+}
+
+/* Za velike uređaje (veći tableti ili mali laptopovi, 992px i više) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .register-container {
+    min-height: 50vw;
+  }
+
+  .register-form {
+    min-height: 600px;
+    width: 800px;
+  }
+
+  .register-wrapper {
+    gap: 20px;
+  }
+}
+
+/* Za vrlo velike uređaje (desktop računari, 1200px i više) */
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .register-container {
+    min-height: 50vw;
+  }
+
+  .register-form {
+    min-height: 600px;
+    width: 800px;
+  }
+
+  .register-wrapper {
+    gap: 20px;
+  }
 }

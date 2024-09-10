@@ -37,15 +37,15 @@ export default function Header() {
       <div className="header-menu-container">
         <div className="cart-container" onClick={() => navigate("/korpa")}>
           <ShoppingCartOutlinedIcon sx={{ fontSize: 40 }} />
-          <label>Korpa</label>
+          <label className="header-menu-label">Korpa</label>
         </div>
         <div className="login-container" onClick={() => navigate(user ? "/profil" : "/prijava")}>
           <AccountCircleOutlinedIcon sx={{ fontSize: 40 }} />
-          <label>{user ? 'Profil' : 'Prijava'}</label>
+          <label className="header-menu-label">{user ? 'Profil' : 'Prijava'}</label>
         </div>
         <div className="contact-container" onClick={() => navigate("/kontakt")}>
           <PhoneOutlinedIcon sx={{ fontSize: 40 }} />
-          <label>Kontakt</label>
+          <label className="header-menu-label">Kontakt</label>
         </div>
       </div>
     </div>

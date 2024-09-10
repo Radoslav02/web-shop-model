@@ -1,5 +1,5 @@
 .login-page-container {
-  min-height: 40vw;
+  min-height: 45vw;
   width: 100%;
   display: flex;
   justify-content: center;
@@ -10,13 +10,13 @@
 
 .login-page-form {
   border: 1px solid black;
-  height: 20vw;
+  height: 30vw;
   width: 30%;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  gap: 20px;
+  gap: 50px;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
   border-radius: 10px;
   background-color: white;
@@ -29,6 +29,7 @@
   flex-direction: column;
   height: 60px;
   width: 250px;
+  gap: 5px;
 }
 
 .password-input {
@@ -37,6 +38,7 @@
   border-radius: 5px;
   background-color: #dafff8;
   border: 0.5px solid black;
+  padding: 10px;
 }
 
 .email-input {
@@ -45,6 +47,7 @@
   border-radius: 5px;
   background-color: #dafff8;
   border: 0.5px solid black;
+  padding: 5px;
 }
 
 .login-page-button-wapper {
@@ -54,19 +57,119 @@
 }
 
 .login-button {
-  height: 25px;
+  height: 30px;
   background-color: #1abc9c;
-  width: 80px;
+  width: 90px;
   border-radius: 5px;
   border: 0.5px solid black;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
 }
 
+.login-button:hover {
+  background-color: #09e0b5;
+  cursor: pointer;
+}
+
 .register-button {
-  height: 25px;
+  height: 30px;
   background-color: white;
-  width: 80px;
+  width: 90px;
   border-radius: 5px;
   border: 0.5px solid black;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.register-button:hover {
+  background-color: rgb(206, 206, 206);
+  cursor: pointer;
+}
+
+.forgot-password-label {
+  cursor: pointer;
+  color: #1abc9c;
+}
+
+.forgot-password-label:hover {
+  cursor: pointer;
+  color: #000000;
+}
+
+.error {
+  color: rgb(216, 106, 106);
+}
+
+.forgot-password-link.disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+
+/* Za vrlo male uređaje (telefoni, manje od 576px) */
+@media (max-width: 575.98px) {
+  .login-page-container {
+    min-height: 130vw;
+    width: 100%;
+  }
+
+  .login-page-form {
+    height: 500px;
+    width: 450px;
+  }
+}
+
+.login-page-input-wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Za male uređaje (telefoni u portret modu, 576px i više) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .login-page-container {
+    min-height: 90vw;
+    width: 100%;
+  }
+
+  .login-page-form {
+    height: 500px;
+    width: 450px;
+  }
+}
+
+/* Za srednje uređaje (tableti, 768px i više) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .login-page-container {
+    min-height: 70vw;
+    width: 100%;
+  }
+
+  .login-page-form {
+    height: 500px;
+    width: 450px;
+  }
+}
+
+/* Za velike uređaje (veći tableti ili mali laptopovi, 992px i više) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .login-page-container {
+    min-height: 50vw;
+    width: 100%;
+  }
+
+  .login-page-form {
+    height: 500px;
+    width: 450px;
+  }
+}
+
+/* Za vrlo velike uređaje (desktop računari, 1200px i više) */
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .login-page-container {
+    min-height: 50vw;
+    width: 100%;
+  }
+
+  .login-page-form {
+    height: 500px;
+    width: 450px;
+  }
 }
