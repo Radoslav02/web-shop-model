@@ -6,6 +6,7 @@ import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { RootState } from "../Redux/store";
+import Logo from "/src/assets/logo.png";
 
 export default function Header() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function Header() {
     <div className="header-container">
       <div className="logo-container">
         <img
-          src="src/assets/Logo.png"
+          src={Logo}
           alt="Ovde ide slika"
           className="logo-picture"
           onClick={() => navigate("/početna")}
