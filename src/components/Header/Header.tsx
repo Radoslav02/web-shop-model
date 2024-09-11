@@ -6,7 +6,7 @@ import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { RootState } from "../Redux/store";
-import Logo from "/src/assets/logo.png";
+import Logo from "../../src/assets/logo.png";
 
 export default function Header() {
   const navigate = useNavigate();
