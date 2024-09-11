@@ -28,10 +28,10 @@ export default function ContactUs() {
 
     emailjs
       .send(
-        "service_zf9aerk", // replace with your EmailJS service ID
-        "template_gdn2y8x", // replace with your EmailJS template ID
+        "service_zf9aerk",
+        "template_gdn2y8x",
         templateParams,
-        "83kRfB6jgzmb21MF0" // replace with your EmailJS user ID
+        "83kRfB6jgzmb21MF0"
       )
       .then((response) => {
         console.log("Success:", response);
@@ -51,42 +51,47 @@ export default function ContactUs() {
 
   return (
     <div className="contact-page-container">
-      <h1>Contact Us</h1>
-      <form className="contact-form" onSubmit={handleSubmit}>
-        <div>
-          <label>Ime:</label>
-          <input
-            type="text"
-            value={firstName}
-            onChange={(e) => setFirstName(e.target.value)}
-          />
+      <form className="contact-page-form" onSubmit={handleSubmit}>
+        <h1>Kontaktirajte nas</h1>
+        <div className="name-surname-contact-wrapper">
+          <div className="conatact-input-wrapper">
+            <label>Ime:</label>
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              className="name-input"
+            />
+          </div>
+          <div className="conatact-input-wrapper">
+            <label>Prezime:</label>
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="surname-input"
+            />
+          </div>
         </div>
-        <div>
-          <label>Prezime:</label>
-          <input
-            type="text"
-            value={lastName}
-            onChange={(e) => setLastName(e.target.value)}
-          />
-        </div>
-        <div>
+        <div className="conatact-input-wrapper">
           <label>E-mail:</label>
           <input
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="contact-email-input"
           />
         </div>
-        <div>
+        <div className="conatact-input-wrapper">
           <label>Poruka:</label>
           <textarea
-            placeholder="Your Message"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
+            className="message-area"
           ></textarea>
         </div>
         <div>
-          <button type="submit" disabled={isSending}>
+          <button className="send-message-button" type="submit" disabled={isSending}>
             {isSending ? "Sending..." : "Send Message"}
           </button>
         </div>

@@ -100,64 +100,68 @@ const ProfilePage = () => {
           <p>Email: {userProfile.email}</p>
           {editing ? (
             <div>
-              <label>Name:</label>
+              <label>Ime:</label>
               <input
                 type="text"
                 value={formData?.name || ''}
                 onChange={(e) => setFormData(prev => prev ? { ...prev, name: e.target.value } : null)}
               />
-              <label>Number:</label>
-              <input
-                type="text"
-                value={formData?.number || ''}
-                onChange={(e) => setFormData(prev => prev ? { ...prev, number: e.target.value } : null)}
-              />
-              <label>Phone Number:</label>
-              <input
-                type="text"
-                value={formData?.phoneNumber || ''}
-                onChange={(e) => setFormData(prev => prev ? { ...prev, phoneNumber: e.target.value } : null)}
-              />
-              <label>Place:</label>
-              <input
-                type="text"
-                value={formData?.place || ''}
-                onChange={(e) => setFormData(prev => prev ? { ...prev, place: e.target.value } : null)}
-              />
-              <label>Postal Code:</label>
-              <input
-                type="text"
-                value={formData?.postalCode || ''}
-                onChange={(e) => setFormData(prev => prev ? { ...prev, postalCode: e.target.value } : null)}
-              />
-              <label>Street:</label>
-              <input
-                type="text"
-                value={formData?.street || ''}
-                onChange={(e) => setFormData(prev => prev ? { ...prev, street: e.target.value } : null)}
-              />
-              <label>Surname:</label>
+               <label>Prezime:</label>
               <input
                 type="text"
                 value={formData?.surname || ''}
                 onChange={(e) => setFormData(prev => prev ? { ...prev, surname: e.target.value } : null)}
               />
+             
+              <label>Broj Telefona:</label>
+              <input
+                type="text"
+                value={formData?.phoneNumber || ''}
+                onChange={(e) => setFormData(prev => prev ? { ...prev, phoneNumber: e.target.value } : null)}
+              />
+              <label>Mesto stanovanja:</label>
+              <input
+                type="text"
+                value={formData?.place || ''}
+                onChange={(e) => setFormData(prev => prev ? { ...prev, place: e.target.value } : null)}
+              />
+              <label>Poštanski broj:</label>
+              <input
+                type="text"
+                value={formData?.postalCode || ''}
+                onChange={(e) => setFormData(prev => prev ? { ...prev, postalCode: e.target.value } : null)}
+              />
+              <label>Naziv ulice:</label>
+              <input
+                type="text"
+                value={formData?.street || ''}
+                onChange={(e) => setFormData(prev => prev ? { ...prev, street: e.target.value } : null)}
+              />
+               <label>Broj kuće:</label>
+              <input
+                type="text"
+                value={formData?.number || ''}
+                onChange={(e) => setFormData(prev => prev ? { ...prev, number: e.target.value } : null)}
+              />
+             
               <button onClick={handleUpdateProfile}>Save Changes</button>
               <button onClick={() => setEditing(false)}>Cancel</button>
             </div>
           ) : (
             <div>
-              <p>Name: {userProfile.name}</p>
-              <p>Number: {userProfile.number}</p>
-              <p>Phone Number: {userProfile.phoneNumber}</p>
-              <p>Place: {userProfile.place}</p>
-              <p>Postal Code: {userProfile.postalCode}</p>
-              <p>Street: {userProfile.street}</p>
-              <p>Surname: {userProfile.surname}</p>
+              <p>Ime: {userProfile.name}</p>
+              <p>Prezime: {userProfile.surname}</p>
+              <p>Broj telefona: {userProfile.phoneNumber}</p>
+              <p>Mesto stanovanja: {userProfile.place}</p>
+              <p>Poštanski broj: {userProfile.postalCode}</p>
+              <p>Nayiv ulice: {userProfile.street}</p>
+              <p>Broj kuće/zgrade: {userProfile.number}</p>
               <button onClick={() => setEditing(true)}>Edit Profile</button>
+              <button onClick={handleLogout}>Log Out</button>
             </div>
+            
           )}
-          <button onClick={handleLogout}>Log Out</button>
+          
         </div>
       ) : (
         <p>Loading...</p>

@@ -1,0 +1,128 @@
+.contact-page-container {
+  min-height: 45vw;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background-color: #d1d1d16f;
+}
+
+.contact-page-form {
+  border: 1px solid black;
+  min-height: 800px;
+  width: 800px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 30px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+  border-radius: 10px;
+  background-color: white;
+  padding: 20px;
+}
+
+.conatact-input-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.name-surname-contact-wrapper {
+  display: flex;
+  gap: 20px;
+}
+
+.name-input {
+  height: 30px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: 0.5px solid black;
+  padding: 10px;
+}
+
+.surname-input {
+  height: 30px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: 0.5px solid black;
+  padding: 10px;
+}
+
+.contact-email-input {
+  height: 30px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: 0.5px solid black;
+  padding: 10px;
+  width: 450px;
+}
+
+.message-area {
+  height: 450px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: 0.5px solid black;
+  padding: 10px;
+  width: 450px;
+}
+
+.send-message-button {
+  height: 30px;
+  background-color: #1abc9c;
+  width: 120px;
+  border-radius: 5px;
+  border: 0.5px solid black;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+.send-message-button:hover {
+  background-color: #09e0b5;
+  cursor: pointer;
+}
+
+/* Za vrlo male uređaje (telefoni, manje od 576px) */
+@media (max-width: 575.98px) {
+
+    .contact-page-form {
+        width: 370px;
+
+    }
+
+    .name-surname-contact-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .contact-email-input, .name-input, .surname-input{
+        width: 250px;
+        height: 40px;
+      }
+
+      .message-area{
+        width: 250px;
+        height: 250px;
+      }
+}
+
+/* Za male uređaje (telefoni u portret modu, 576px i više) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+}
+
+/* Za srednje uređaje (tableti, 768px i više) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+}
+
+/* Za velike uređaje (veći tableti ili mali laptopovi, 992px i više) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+}
+
+/* Za vrlo velike uređaje (desktop računari, 1200px i više) */
+@media (min-width: 1200px) and (max-width: 1400px) {
+}
