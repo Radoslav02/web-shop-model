@@ -48,7 +48,7 @@ const LoginPage = () => {
       }
     } catch (error) {
       if (error instanceof Error) {
-        toast.error(`Prijavljivanje neuspešno: ${error.message}`, {
+        toast.error(`Prijavljivanje neuspešno`, {
           onClose: () => setIsButtonDisabled(false), 
         });
       } else {

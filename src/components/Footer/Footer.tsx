@@ -27,9 +27,7 @@ export default function Footer() {
         <p>Petra Petrovica 10</p>
       </div>
       </div>
-      <div className="footer-bottom">
-        <p>&copy; 2024 SN. All rights reserved.</p>
-      </div>
+      
     </div>
   );
 }

@@ -41,7 +41,7 @@
   width: 100%;
   height: 40px;
   border-radius: 20px;
-  border: 1px solid black;
+  border: none;
   padding: 10px;
   font-size: 16px !important;
 }
@@ -68,7 +68,7 @@
 
 .cart-container,
 .login-container,
-.contact-container {
+.contact-container, .admin-icon-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -106,7 +106,8 @@
     
       .cart-container label,
       .login-container label,
-      .contact-container label {
+      .contact-container label,
+      .admin-icon-container label {
         display: none;
       }
 
@@ -143,7 +144,8 @@
     
       .cart-container label,
       .login-container label,
-      .contact-container label {
+      .contact-container label,
+      .admin-icon-container label {
         display: none;
       }
 
@@ -180,10 +182,11 @@
     
       .cart-container label,
       .login-container label,
-      .contact-container label {
+      .contact-container label,
+      .admin-icon-container label {
         display: none;
       }
-
+      
       .header-menu-container{
         display: flex;
         justify-content: space-between;
@@ -217,7 +220,8 @@
     
       .cart-container label,
       .login-container label,
-      .contact-container label {
+      .contact-container label,
+      .admin-icon-container label {
         display: none;
       }
 

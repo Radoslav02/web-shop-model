@@ -6,12 +6,16 @@ import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
 import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { RootState } from "../Redux/store";
+import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
 
 export default function Header() {
   const navigate = useNavigate();
 
   // Pristupi Redux stanju
   const user = useSelector((state: RootState) => state.auth.user);
+  
+  // Proveri da li je korisnik admin
+  const isAdmin = user?.isAdmin;
 
   return (
     <div className="header-container">
@@ -47,6 +51,13 @@ export default function Header() {
           <PhoneOutlinedIcon sx={{ fontSize: 40 }} />
           <label className="header-menu-label">Kontakt</label>
         </div>
+        {/* Prikazivanje admin ikonice samo ako je ulogovan admin */}
+        {isAdmin && (
+          <div className="admin-icon-container" onClick={() => navigate("/admin/panel")}>
+            <AdminPanelSettingsOutlinedIcon sx={{ fontSize: 40 }} />
+            <label className="header-menu-label">Admin</label>
+          </div>
+        )}
       </div>
     </div>
   );

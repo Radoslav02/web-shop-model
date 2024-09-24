@@ -92,7 +92,7 @@ export default function ContactUs() {
         </div>
         <div>
           <button className="send-message-button" type="submit" disabled={isSending}>
-            {isSending ? "Sending..." : "Send Message"}
+            {isSending ? "Slanje..." : "Pošaljite"}
           </button>
         </div>
       </form>
