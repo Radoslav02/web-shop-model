@@ -5,6 +5,7 @@ import Footer from "./components/Footer/Footer";
 import { useEffect } from "react";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NavBar from "./components/NavBar/NavBar";
 
 function App() {
   const navigate = useNavigate();
@@ -16,6 +17,7 @@ function App() {
   return (
     <div className="container-fluid">
       <Header />
+      <NavBar />
       <Outlet />
       <Footer />
       <ToastContainer

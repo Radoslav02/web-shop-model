@@ -20,6 +20,8 @@ type Product = {
   size: string[];
   price: number;
   images: string[];
+  category: string;
+  description: string;
 };
 
 const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
@@ -32,6 +34,8 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
   const [gender, setGender] = useState(product.gender);
   const [size, setSize] = useState(product.size.join(","));
   const [price, setPrice] = useState(String(product.price));
+  const [category, setCategory] = useState(product.category);
+  const [description, setDescription] = useState(product.description); // New state for description
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>(product.images);
   const [loading, setLoading] = useState(false);
@@ -43,12 +47,20 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
   const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selectedFiles = Array.from(e.target.files);
+      const totalImages = images.length + selectedFiles.length;
+  
+      if (totalImages > 5) {
+        toast.error("Maksimalan broj slika je 5.");
+        return; 
+      }
+  
       setImages((prevImages) => [...prevImages, ...selectedFiles]);
-
+  
       const previews = selectedFiles.map((file) => URL.createObjectURL(file));
       setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
     }
   };
+  
 
   const removeImage = (index: number) => {
     const imageUrl = imagePreviews[index];
@@ -61,12 +73,24 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
   };
 
   const uploadImages = async () => {
-    const imageUrls: string[] = [];
-
+    const imageUrls: string[] = [...product.images]; // Sačuvaj postojeće slike
+  
     for (const image of images) {
-      const imageRef = ref(storage, `images/${Date.now()}_${image.name}`); // Ensure proper naming
+      // Proveri da li slika već postoji
+      const existingImageUrl = product.images.find((url) =>
+        url.includes(image.name)
+      );
+  
+      if (existingImageUrl) {
+        // Ako slika postoji, koristi postojeći URL
+        imageUrls.push(existingImageUrl);
+        continue;
+      }
+  
+      // Ako slika ne postoji, otpremi novu sliku
+      const imageRef = ref(storage, `images/${image.name}`);
       const uploadTask = uploadBytesResumable(imageRef, image);
-
+  
       const downloadURL = await new Promise<string>((resolve, reject) => {
         uploadTask.on(
           "state_changed",
@@ -88,37 +112,39 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
           }
         );
       });
-
+  
       imageUrls.push(downloadURL);
     }
-
+  
     return imageUrls;
   };
+  
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+  
     if (!sizePattern.test(size)) {
       toast.error(
         "Nepravilan format veličina. Molimo vas da dodate veličine odvojene zarezom."
       );
       return;
     }
-
+  
     setLoading(true);
-
+  
     try {
       const sizes = size
         .toUpperCase()
         .split(",")
         .map((s) => s.trim());
-      let imageUrls: string[];
-
+  
+      // Prvo otpremi nove slike, ako postoje
+      let imageUrls: string[] = product.images;
+  
       if (images.length > 0) {
         imageUrls = await uploadImages();
-      } else {
-        imageUrls = product.images.length > 0 ? product.images : [];
       }
-
+  
+      // Ako su slike obrisane, obriši ih iz Firebase Storage
       if (removedImages.length > 0) {
         await Promise.all(
           removedImages.map(async (imageUrl) => {
@@ -126,14 +152,15 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
               imageUrl.split("/").pop()?.split("?")[0] || ""
             );
             const imageRef = ref(storage, `/${filename}`);
-
+  
             await deleteObject(imageRef);
           })
         );
-
+  
         imageUrls = imageUrls.filter((url) => !removedImages.includes(url));
       }
-
+  
+      // Update proizvoda u Firestore
       await updateDoc(doc(db, "products", product.productId), {
         name,
         type,
@@ -142,8 +169,10 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
         size: sizes,
         price: parseFloat(price),
         images: imageUrls,
+        category,
+        description,
       });
-
+  
       toast.success("Proizvod uspešno izmenjen!");
       onClose();
     } catch (error) {
@@ -153,6 +182,7 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
       setLoading(false);
     }
   };
+  
 
   return (
     <div className="edit-item-modal-container">
@@ -177,6 +207,17 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
             type="text"
             value={type}
             onChange={(e) => setType(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className="edit-form-group">
+          <label htmlFor="category">Kategorija:</label>
+          <input
+            id="category"
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
             required
           />
         </div>
@@ -222,11 +263,21 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
           <label htmlFor="price">Cena:</label>
           <input
             id="price"
-            type="number"
+            type="text"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
             required
             min="0"
+          />
+        </div>
+
+        <div className="edit-form-group">
+          <label htmlFor="description">Opis:</label>
+          <textarea
+            id="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            rows={4}
           />
         </div>
 
@@ -260,9 +311,7 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
 
         <div className="edit-button-wrapper">
           <button className="add-button" type="submit" disabled={loading}>
-            {loading
-              ? `Izmena ${Math.round(uploadProgress)}%`
-              : "Izmeni proizvod"}
+            {loading ? `Izmena ${Math.round(uploadProgress)}%` : "Izmeni proizvod"}
           </button>
           <button className="cancel-button" type="button" onClick={onClose}>
             Otkaži

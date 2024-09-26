@@ -65,6 +65,16 @@
   padding: 10px;
 }
 
+.new-item-input-wrapper textarea{
+  height: 80px;
+  width: 350px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: none;
+  padding: 10px;
+}
+
 .new-item-input-wrapper select{
   height: 40px;
   width: 350px;
@@ -93,7 +103,7 @@
 .image-preview {
   width: 100px;
   height: 100px;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .remove-image-btn {

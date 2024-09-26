@@ -9,6 +9,9 @@ import Register from "./components/Register/Register";
 import ProfilePage from "./components/UserProfile/ProfilePage";
 import AdminPanel from "./components/AdminPanel/AdminPanel";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
+import FemalePage from "./components/FemalePage/FemalePage";
+import MalePage from "./components/MalePage/MalePage";
+import ItemDetails from "./components/ItemDetails/ItemDetails";
 
 export const router = createHashRouter([
   {
@@ -36,6 +39,14 @@ export const router = createHashRouter([
         element: <Register />,
       },
       {
+        path: "/žene",
+        element: <FemalePage />
+      },
+      {
+        path: "/muškarci",
+        element: <MalePage />
+      },
+      {
         path: "/profil",
         element: (
           <PrivateRoute>
@@ -50,6 +61,10 @@ export const router = createHashRouter([
             <AdminPanel />
           </PrivateRoute>
         ),
+      },
+      {
+        path: "/proizvod/:productId", // Dynamic route for item details
+        element: <ItemDetails />, // Render the ItemDetails component
       },
     ],
   },

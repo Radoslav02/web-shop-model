@@ -7,15 +7,18 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./NewItemModal.css";
+import { FirebaseError } from "firebase/app";
 
 const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const user = useSelector((state: RootState) => state.auth.user);
   const [name, setName] = useState("");
   const [type, setType] = useState("");
+  const [category, setCategory] = useState(""); 
   const [manufacturer, setManufacturer] = useState("");
   const [gender, setGender] = useState("male");
   const [size, setSize] = useState("");
   const [price, setPrice] = useState("");
+  const [description, setDescription] = useState(""); 
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
@@ -26,12 +29,21 @@ const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const handleImagesChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const selectedFiles = Array.from(e.target.files);
+      
+      // Check the total number of images including previously selected ones
+      if (images.length + selectedFiles.length > 5) {
+        toast.error("Maksimalan broj slika je 5.");
+        return;
+      }
+  
+      // If under the limit, update images and previews
       setImages((prevImages) => [...prevImages, ...selectedFiles]);
-
+  
       const previews = selectedFiles.map((file) => URL.createObjectURL(file));
       setImagePreviews((prevPreviews) => [...prevPreviews, ...previews]);
     }
   };
+  
 
   const handleRemoveImage = (index: number) => {
     const updatedImages = images.filter((_, i) => i !== index);
@@ -43,36 +55,51 @@ const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const uploadImages = async () => {
     const imageUrls: string[] = [];
-
+  
     for (const image of images) {
-      const imageRef = ref(storage, `images/${Date.now()}_${image.name}`);
-      const uploadTask = uploadBytesResumable(imageRef, image);
-
-      const downloadURL = await new Promise<string>((resolve, reject) => {
-        uploadTask.on(
-          "state_changed",
-          (snapshot) => {
-            const progress =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            setUploadProgress(progress);
-          },
-          (error) => {
-            reject(error);
-          },
-          async () => {
-            try {
-              const url = await getDownloadURL(uploadTask.snapshot.ref);
-              resolve(url);
-            } catch (error) {
-              reject(error);
-            }
-          }
-        );
-      });
-
-      imageUrls.push(downloadURL);
+      const imageRef = ref(storage, `images/${image.name}`);
+      
+      try {
+        // Try to get the download URL if the image already exists
+        const existingUrl = await getDownloadURL(imageRef);
+        imageUrls.push(existingUrl);
+      } catch (error) {
+        // Narrow down the error type to handle it properly
+        if (error instanceof FirebaseError && error.code === 'storage/object-not-found') {
+          // If the image doesn't exist, upload it
+          const uploadTask = uploadBytesResumable(imageRef, image);
+          
+          const downloadURL = await new Promise<string>((resolve, reject) => {
+            uploadTask.on(
+              "state_changed",
+              (snapshot) => {
+                const progress =
+                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+                setUploadProgress(progress);
+              },
+              (uploadError) => {
+                reject(uploadError);
+              },
+              async () => {
+                try {
+                  const url = await getDownloadURL(uploadTask.snapshot.ref);
+                  resolve(url);
+                } catch (downloadError) {
+                  reject(downloadError);
+                }
+              }
+            );
+          });
+  
+          imageUrls.push(downloadURL);
+        } else {
+          // If it's another error, handle it generically
+          toast.error("Error fetching image URL.");
+          console.error("Error fetching image URL:", error);
+        }
+      }
     }
-
+  
     return imageUrls;
   };
 
@@ -95,20 +122,24 @@ const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       await addDoc(collection(db, "products"), {
         name,
         type,
+        category, 
         manufacturer,
         gender,
         size: sizes,
         price: parseFloat(price),
+        description, 
         images: imageUrls,
       });
 
       toast.success("Product added successfully!");
       setName("");
       setType("");
+      setCategory(""); 
       setManufacturer("");
       setGender("male");
       setSize("");
       setPrice("");
+      setDescription(""); 
       setImages([]);
       setImagePreviews([]);
       onClose();
@@ -129,11 +160,20 @@ const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <form className="new-item-form" onSubmit={handleSubmit}>
         <h2>Dodavanje proizvoda</h2>
         <div className="new-item-input-wrapper">
-          <label>Ime:</label>
+          <label>Naziv:</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
+            required
+          />
+        </div>
+        <div className="new-item-input-wrapper">
+          <label>Tip:</label>
+          <input
+            type="text"
+            value={category}
+            onChange={(e) => setCategory(e.target.value)}
             required
           />
         </div>
@@ -167,7 +207,7 @@ const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           </select>
         </div>
         <div className="new-item-input-wrapper">
-          <label>Veličine:</label>
+          <label>Veličine (odvojene zarezom):</label>
           <input
             type="text"
             value={size}
@@ -186,12 +226,29 @@ const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           />
         </div>
         <div className="new-item-input-wrapper">
+          <label>Opis:</label>
+          <textarea
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </div>
+        <div className="new-item-input-wrapper">
           <label>Slike:</label>
-          <input type="file" className="image-input" multiple onChange={handleImagesChange} required />
+          <input
+            type="file"
+            className="image-input"
+            multiple
+            onChange={handleImagesChange}
+            required
+          />
           <div className="image-previews">
             {imagePreviews.map((preview, index) => (
               <div className="image-preview-wrapper" key={index}>
-                <img src={preview} alt={`preview ${index}`} className="image-preview" />
+                <img
+                  src={preview}
+                  alt={`preview ${index}`}
+                  className="image-preview"
+                />
                 <button
                   type="button"
                   className="remove-image-btn"

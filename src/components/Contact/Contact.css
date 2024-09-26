@@ -4,12 +4,12 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 20px;
-  background-color: #d1d1d16f;
+  padding: 50px;
+  background-color: #ffffff8e;
 }
 
 .contact-page-form {
-  min-height: 800px;
+  min-height: 700px;
   width: 800px;
   display: flex;
   align-items: center;
@@ -62,7 +62,7 @@
 }
 
 .message-area {
-  height: 450px;
+  height: 250px;
   font-size: 16px !important;
   border-radius: 5px;
   background-color: #dafff8;

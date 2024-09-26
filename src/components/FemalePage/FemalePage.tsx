@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { collection, getDocs } from "firebase/firestore";
-import "./Home.css";
+import { collection, query, where, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import "./FemalePage.css";
 import { ScaleLoader } from "react-spinners";
-import { useNavigate } from "react-router-dom";
 
 type Product = {
   productId: string;
@@ -12,19 +12,20 @@ type Product = {
   images: string[];
 };
 
-export default function Home() {
+export default function FemalePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); 
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchFemaleProducts = async () => {
       setLoading(true);
       try {
-        // Reference to the products collection
-        const q = collection(db, "products");
+        const q = query(
+          collection(db, "products"),
+          where("gender", "==", "female")
+        );
 
-        // Fetch products
         const querySnapshot = await getDocs(q);
         const fetchedProducts: Product[] = querySnapshot.docs.map((doc) => ({
           productId: doc.id,
@@ -33,13 +34,13 @@ export default function Home() {
 
         setProducts(fetchedProducts);
       } catch (error) {
-        console.error("Error fetching products: ", error);
+        console.error("Error fetching female products: ", error);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchProducts();
+    fetchFemaleProducts();
   }, []);
 
   const formatPrice = (price: number) => {
@@ -56,22 +57,26 @@ export default function Home() {
   };
 
   return (
-    <div className="home-page-container">
+    <div className="female-page-container">
       {loading ? (
         <div className="loader">
           <ScaleLoader color="#1abc9c" />
         </div>
       ) : (
-        <div className="home-products-grid">
+        <div className="female-products-grid">
           {products.map((product) => (
-            <div className="home-product-card" key={product.productId} onClick={() => handleProductClick(product.productId)}>
+            <div
+              className="female-product-card"
+              key={product.productId}
+              onClick={() => handleProductClick(product.productId)} 
+            >
               <img
                 src={product.images[0]} 
                 alt={product.name}
-                className="home-product-image"
+                className="female-product-image"
               />
-              <h3 className="home-product-name">{product.name}</h3>
-              <p className="home-product-price">{formatPrice(product.price)}</p>
+              <h3 className="female-product-name">{product.name}</h3>
+              <p className="female-product-price">{formatPrice(product.price)}</p>
             </div>
           ))}
         </div>

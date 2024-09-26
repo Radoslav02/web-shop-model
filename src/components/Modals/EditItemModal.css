@@ -52,6 +52,16 @@
     padding: 10px;
 }
 
+.edit-form-group textarea{
+  height: 80px;
+  width: 350px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: none;
+  padding: 10px;
+}
+
 .edit-form-group select{
     height: 40px;
     width: 350px;

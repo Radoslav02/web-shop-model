@@ -14,6 +14,7 @@ type Product = {
   productId: string;
   name: string;
   type: string;
+  category:string;
   manufacturer: string;
   gender: "male" | "female";
   size: string[];
@@ -48,15 +49,15 @@ export default function AdminPanel() {
   function handleCloseEditItemModal() {
     setEditItemClicked(false);
     setSelectedProduct(null);
-    setRefreshProducts(true); // Trigger refresh after closing the edit modal
+    setRefreshProducts(true); 
   }
 
   const handleImageSelect = async (
-    event: React.MouseEvent<HTMLButtonElement>, // Dodaj event kao parametar
+    event: React.MouseEvent<HTMLButtonElement>,
     productIndex: number,
     imageIndex: number
   ) => {
-    event.stopPropagation(); // Sprečava propagaciju događaja
+    event.stopPropagation(); 
 
     const product = products[productIndex];
     const newImages = [...product.images];
@@ -67,7 +68,7 @@ export default function AdminPanel() {
     const updatedProducts = [...products];
     updatedProducts[productIndex] = { ...product, images: newImages };
     setProducts(updatedProducts);
-    setSelectedImageIndex(Array(updatedProducts.length).fill(0)); // Reset image selection
+    setSelectedImageIndex(Array(updatedProducts.length).fill(0)); 
 
     // Update database
     const productDocRef = doc(db, "products", product.productId);
@@ -84,14 +85,14 @@ export default function AdminPanel() {
   };
 
   const deleteProduct = async (
-    event: React.MouseEvent<SVGSVGElement>, // Dodaj event kao parametar
+    event: React.MouseEvent<SVGSVGElement>, 
     productId: string,
     images: string[]
   ) => {
-    event.stopPropagation(); // Sprečava propagaciju događaja
+    event.stopPropagation(); 
 
     try {
-      setDeletingProductId(productId); // Set deletingProductId to indicate deletion in progress
+      setDeletingProductId(productId); 
 
       const productDocRef = doc(db, "products", productId);
       await deleteDoc(productDocRef);
@@ -165,7 +166,7 @@ export default function AdminPanel() {
                 {product.images.map((_, imageIndex) => (
                   <button
                     key={imageIndex}
-                    onClick={(event) => handleImageSelect(event, index, imageIndex)} // Dodaj event parametar
+                    onClick={(event) => handleImageSelect(event, index, imageIndex)}
                     className={selectedImageIndex[index] === imageIndex ? "selected" : ""}
                   >
                     {imageIndex + 1}
@@ -193,7 +194,7 @@ export default function AdminPanel() {
               <div className="price-icon-wrapper">
                 <p>{formatPrice(product.price)}</p>
                 <DeleteIcon
-                  onClick={(event) => !deletingProductId && deleteProduct(event, product.productId, product.images)} // Dodaj event parametar
+                  onClick={(event) => !deletingProductId && deleteProduct(event, product.productId, product.images)} 
                   className="delete-icon"
                   style={{
                     cursor: deletingProductId ? "not-allowed" : "pointer",

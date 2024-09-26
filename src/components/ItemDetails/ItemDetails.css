@@ -1,0 +1,280 @@
+.item-details-container {
+  width: 100%;
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
+
+.product-info {
+  width: 100%;
+  display: flex;
+  height: auto;
+  padding: 20px;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 50px;
+  justify-content: flex-start;
+}
+
+.images-wrapper {
+  display: flex;
+  width: 100%;
+  margin-left: 100px;
+}
+
+.large-image-container {
+  height: 600px !important;
+  width: 600px !important;
+}
+
+.thumbnail-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.large-image {
+  height: 600px !important;
+  width: 800px !important;
+  object-fit: contain;
+}
+
+.thumbnail {
+  width: 150px;
+  height: 150px;
+  cursor: pointer;
+  margin-bottom: 10px;
+  border: 2px solid transparent;
+  transition: border 0.3s;
+  object-fit: contain;
+}
+
+.thumbnail.selected {
+  border: 2px solid #1abc9c;
+}
+
+.product-description {
+  word-break: break-word;
+  width: 500px;
+  text-align: center;
+  font-size: 18px;
+}
+
+.add-to-cart-button {
+  width: 350px;
+  height: 50px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+
+.details-item-sizes {
+  display: flex;
+  flex-direction: column;
+  width: 350px;
+  align-items: center;
+  gap: 5px;
+}
+
+.size-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.size-button {
+  width: 40px;
+  height: 40px;
+  background-color: white;
+  flex: 1 0 10%;
+  max-width: 40px;
+  box-sizing: border-box;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.size-button.selected {
+  background-color: black;
+  color: white;
+}
+
+.details-product-price {
+  font-size: 25px !important;
+  font-weight: bold;
+  color: #1abc9c;
+}
+
+.error-message {
+  color: red;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.button-message-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+@media (max-width: 1200px) {
+  .product-info {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .images-wrapper {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0;
+  }
+
+  .thumbnail-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .thumbnail {
+    width: 80px;
+    height: 80px;
+  }
+
+  .details-container {
+    width: 90%;
+    align-items: center;
+  }
+
+  .large-image,
+  .large-image-container {
+    width: 350px !important;
+    height: 350px !important;
+    object-fit: contain;
+  }
+
+  .details-product-price {
+    font-size: 20px;
+  }
+
+  .details-product-name {
+    font-size: 25px;
+  }
+
+  .product-description {
+    font-size: 16px;
+    width: 300px;
+  }
+
+  .size-button {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 768px) {
+  .product-info {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .images-wrapper {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0;
+  }
+
+  .thumbnail-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .thumbnail {
+    width: 80px;
+    height: 80px;
+  }
+
+  .details-container {
+    width: 90%;
+    align-items: center;
+  }
+
+  .large-image,
+  .large-image-container {
+    width: 350px !important;
+    height: 350px !important;
+    object-fit: contain;
+  }
+
+  .details-product-price {
+    font-size: 20px;
+  }
+
+  .details-product-name {
+    font-size: 25px;
+  }
+
+  .product-description {
+    font-size: 16px;
+    width: 300px;
+  }
+
+  .size-button {
+    width: 35px;
+    height: 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .item-details-container {
+    padding: 0;
+    align-items: center;
+  }
+
+  .thumbnail-container {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .images-wrapper {
+    width: 90%;
+    height: 100%;
+  }
+
+  .product-info {
+    align-items: center;
+  }
+
+  .add-to-cart-button {
+    width: 300px;
+  }
+
+  .large-image,
+  .large-image-container {
+    width: 350px !important;
+    height: 350px !important;
+    object-fit: contain;
+  }
+
+  .details-product-price {
+    font-size: 20px;
+  }
+
+  .details-product-name {
+    font-size: 25px;
+  }
+
+  .product-description {
+    font-size: 16px;
+    width: 300px;
+  }
+
+  .size-button {
+    width: 35px;
+    height: 35px;
+  }
+}

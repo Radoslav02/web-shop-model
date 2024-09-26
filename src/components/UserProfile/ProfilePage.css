@@ -2,10 +2,10 @@
   min-height: 80vh;
   width: 100%;
   display: flex;
-  justify-content: center;
+
   align-items: center;
-  padding: 20px;
-  background-color: #d1d1d16f;
+  padding: 50px;
+  background-color: #ffffff8e;
   flex-direction: column;
 }
 

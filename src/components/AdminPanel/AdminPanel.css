@@ -2,7 +2,7 @@
     min-height: 80vh;
     width: 100%;
     padding: 50px;
-    background-color: #d1d1d16f;
+    background-color:#ffffff8e;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -32,7 +32,7 @@
 
 .product-card, .add-item-card {
     border-radius: 10px;
-    height: 350px; 
+    height: 400px; 
     width: 285px; 
     position: relative;
     transition: transform 0.3s ease;
@@ -70,8 +70,8 @@
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
     width: 100%;
-    height: auto; 
-    object-fit: fill;
+    height: 100%; 
+    object-fit: contain;
 }
 
 .item-title {

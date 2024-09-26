@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from 'react-redux';
 import { RootState } from "../Redux/store";
 import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
+import LogoX from "../../assets/LogoX.png" 
 
 export default function Header() {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export default function Header() {
     <div className="header-container">
       <div className="logo-container">
         <img
-          src="src/assets/Logo.png"
+          src={LogoX}
           alt="Ovde ide slika"
           className="logo-picture"
           onClick={() => navigate("/početna")}
@@ -51,7 +52,7 @@ export default function Header() {
           <PhoneOutlinedIcon sx={{ fontSize: 40 }} />
           <label className="header-menu-label">Kontakt</label>
         </div>
-        {/* Prikazivanje admin ikonice samo ako je ulogovan admin */}
+        {/* Show icon only if admin is logged in*/}
         {isAdmin && (
           <div className="admin-icon-container" onClick={() => navigate("/admin/panel")}>
             <AdminPanelSettingsOutlinedIcon sx={{ fontSize: 40 }} />
