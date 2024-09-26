@@ -20,6 +20,7 @@ type Product = {
   size: string[];
   price: number;
   images: string[];
+  description:string;
 };
 
 export default function AdminPanel() {
