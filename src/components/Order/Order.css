@@ -45,7 +45,7 @@ export default function Cart() {
       },
       total: finalTotal,
     };
-    navigate('/poručivanje', { state: orderDetails }); // Navigate to the ordering page with state
+    navigate('/porucivanje', { state: orderDetails }); // Navigate to the ordering page with state
   };
 
   return (

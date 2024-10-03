@@ -6,7 +6,7 @@ export default function NavBar() {
 
   return (
     <div className="nav-bar-container">
-      <div className="nav-item" onClick={() => navigate("/Početna")}>
+      <div className="nav-item" onClick={() => navigate("/početna")}>
         <h3>Početna</h3>
       </div>
       <div className="nav-item" onClick={() => navigate("/muškarci")}>

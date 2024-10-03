@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { db, storage } from "../firebase";
-import { collection, getDocs, doc, updateDoc, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import "./AdminPanel.css";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -9,71 +9,74 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Tooltip from "@mui/material/Tooltip";
 import { ScaleLoader } from "react-spinners";
 import EditItemModal from "../Modals/EditItemModal";
+import Filter from "../Filter/Filter"; // Import the Filter component
+import { useSelector } from 'react-redux';
+import { RootState } from "../Redux/store";
 
 type Product = {
   productId: string;
   name: string;
   type: string;
-  category:string;
+  category: string;
   manufacturer: string;
   gender: "male" | "female";
   size: string[];
   price: number;
   images: string[];
-  description:string;
+  description: string;
 };
 
 export default function AdminPanel() {
   const [newItemClicked, setNewItemClicked] = useState<boolean>(false);
   const [products, setProducts] = useState<Product[]>([]);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number[]>([]);
   const [refreshProducts, setRefreshProducts] = useState<boolean>(false);
   const [deletingProductId, setDeletingProductId] = useState<string | null>(null);
   const [editItemClicked, setEditItemClicked] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [filters, setFilters] = useState({
+    types: [] as string[],
+    categories: [] as string[],
+    genders: [] as string[],
+    sizes: [] as string[],
+  });
 
-  function handleProductClick(product: Product) {
-    setSelectedProduct(product);
-    setEditItemClicked(true);
-  }
+  const searchQuery = useSelector((state: RootState) => state.search.query); // Search query from Redux store
 
-  function handleNewItemClicked() {
+  const handleNewItemClicked = () => {
     setNewItemClicked(true);
-  }
+  };
 
-  function handleCloseAddItemModal() {
+  const handleCloseAddItemModal = () => {
     setNewItemClicked(false);
     setRefreshProducts(true);
-  }
+  };
 
-  function handleCloseEditItemModal() {
+  const handleCloseEditItemModal = () => {
     setEditItemClicked(false);
     setSelectedProduct(null);
-    setRefreshProducts(true); 
-  }
+    setRefreshProducts(true);
+  };
 
-  const handleImageSelect = async (
-    event: React.MouseEvent<HTMLButtonElement>,
-    productIndex: number,
-    imageIndex: number
-  ) => {
-    event.stopPropagation(); 
+  const handleImageSelect = async (productIndex: number, imageIndex: number) => {
+    const updatedSelectedImageIndex = [...selectedImageIndex];
+    updatedSelectedImageIndex[productIndex] = imageIndex;
+    setSelectedImageIndex(updatedSelectedImageIndex);
 
-    const product = products[productIndex];
-    const newImages = [...product.images];
-    const [selectedImage] = newImages.splice(imageIndex, 1);
+    const selectedProductId = filteredProducts[productIndex].productId;
+    const newImages = [...filteredProducts[productIndex].images];
+    const selectedImage = newImages.splice(imageIndex, 1)[0];
     newImages.unshift(selectedImage);
 
-    // Update local state
-    const updatedProducts = [...products];
-    updatedProducts[productIndex] = { ...product, images: newImages };
-    setProducts(updatedProducts);
-    setSelectedImageIndex(Array(updatedProducts.length).fill(0)); 
-
-    // Update database
-    const productDocRef = doc(db, "products", product.productId);
-    await updateDoc(productDocRef, { images: newImages });
+    try {
+      const productRef = doc(db, "products", selectedProductId);
+      await updateDoc(productRef, { images: newImages });
+      console.log("Product images updated successfully.");
+    } catch (error) {
+      console.error("Error updating product images: ", error);
+    }
   };
 
   const formatPrice = (price: number) => {
@@ -85,16 +88,11 @@ export default function AdminPanel() {
     }).format(price);
   };
 
-  const deleteProduct = async (
-    event: React.MouseEvent<SVGSVGElement>, 
-    productId: string,
-    images: string[]
-  ) => {
-    event.stopPropagation(); 
+  const deleteProduct = async (event: React.MouseEvent<SVGSVGElement>, productId: string, images: string[]) => {
+    event.stopPropagation();
 
     try {
-      setDeletingProductId(productId); 
-
+      setDeletingProductId(productId);
       const productDocRef = doc(db, "products", productId);
       await deleteDoc(productDocRef);
 
@@ -123,6 +121,7 @@ export default function AdminPanel() {
           return { productId: doc.id, ...data };
         });
         setProducts(productList);
+        setFilteredProducts(productList); // Initially show all products
         setSelectedImageIndex(Array(productList.length).fill(0));
       } catch (error) {
         console.error("Error fetching products: ", error);
@@ -135,12 +134,64 @@ export default function AdminPanel() {
     fetchProducts();
   }, [refreshProducts]);
 
+  const handleFilterChange = (newFilters: any) => {
+    setFilters(newFilters);
+  };
+
+  useEffect(() => {
+    const applyFiltersAndSearch = () => {
+      let updatedProducts = [...products];
+
+      // Apply search filter
+      if (searchQuery) {
+        updatedProducts = updatedProducts.filter((product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+
+      // Apply additional filters
+      if (filters.types.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.types.includes(product.type)
+        );
+      }
+
+      if (filters.categories.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.categories.includes(product.category)
+        );
+      }
+
+      if (filters.genders.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.genders.includes(product.gender)
+        );
+      }
+
+      if (filters.sizes.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          product.size.some((size) => filters.sizes.includes(size))
+        );
+      }
+
+      setFilteredProducts(updatedProducts);
+    };
+
+    applyFiltersAndSearch();
+  }, [filters, products, searchQuery]);
+
+  const handleEditItemClick = (product: Product) => {
+    setSelectedProduct(product);
+    setEditItemClicked(true);
+  };
+
   return (
     <div className="admin-panel-container">
       {newItemClicked && <AddItemModal onClose={handleCloseAddItemModal} />}
       {editItemClicked && selectedProduct && (
         <EditItemModal product={selectedProduct} onClose={handleCloseEditItemModal} />
       )}
+      <Filter onFilterChange={handleFilterChange} />
       <div className="product-list">
         <div className="add-item-card" onClick={handleNewItemClicked}>
           <AddCircleIcon className="add-icon" sx={{ fontSize: 80 }} />
@@ -149,9 +200,9 @@ export default function AdminPanel() {
           <div className="loader">
             <ScaleLoader color="#1abc9c" />
           </div>
-        ) : products.length > 0 ? (
-          products.map((product, index) => (
-            <div key={product.productId} className="product-card" onClick={() => handleProductClick(product)}>
+        ) : filteredProducts.length > 0 ? (
+          filteredProducts.map((product, index) => (
+            <div key={product.productId} className="product-card" onClick={() => handleEditItemClick(product)}>
               <div className="product-image-container">
                 {product.images.length > 0 ? (
                   <img
@@ -167,7 +218,10 @@ export default function AdminPanel() {
                 {product.images.map((_, imageIndex) => (
                   <button
                     key={imageIndex}
-                    onClick={(event) => handleImageSelect(event, index, imageIndex)}
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      handleImageSelect(index, imageIndex);
+                    }}
                     className={selectedImageIndex[index] === imageIndex ? "selected" : ""}
                   >
                     {imageIndex + 1}
@@ -195,7 +249,7 @@ export default function AdminPanel() {
               <div className="price-icon-wrapper">
                 <p>{formatPrice(product.price)}</p>
                 <DeleteIcon
-                  onClick={(event) => !deletingProductId && deleteProduct(event, product.productId, product.images)} 
+                  onClick={(event) => !deletingProductId && deleteProduct(event, product.productId, product.images)}
                   className="delete-icon"
                   style={{
                     cursor: deletingProductId ? "not-allowed" : "pointer",
@@ -205,7 +259,7 @@ export default function AdminPanel() {
             </div>
           ))
         ) : (
-          <p>Nema dostupnih proizvoda.</p>
+          <p>Nema proizvoda za prikaz.</p>
         )}
       </div>
     </div>

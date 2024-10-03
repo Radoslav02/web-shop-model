@@ -1,21 +1,37 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
 import "./FemalePage.css";
 import { ScaleLoader } from "react-spinners";
+import Filter from "../Filter/Filter"; 
+import { useSelector } from 'react-redux'; // Import useSelector
+import { RootState } from "../Redux/store"; // Import RootState
 
 type Product = {
   productId: string;
   name: string;
   price: number;
   images: string[];
+  gender: string; 
+  type: string; 
+  category: string; 
+  size: string[]; 
 };
 
 export default function FemalePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const navigate = useNavigate(); 
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); 
+  const [filters, setFilters] = useState({
+    types: [] as string[],
+    categories: [] as string[],
+    genders: [] as string[],
+    sizes: [] as string[],
+  });
+  
+  const navigate = useNavigate();
+  const searchQuery = useSelector((state: RootState) => state.search.query); // Get the search query
 
   useEffect(() => {
     const fetchFemaleProducts = async () => {
@@ -33,6 +49,7 @@ export default function FemalePage() {
         })) as Product[];
 
         setProducts(fetchedProducts);
+        setFilteredProducts(fetchedProducts); 
       } catch (error) {
         console.error("Error fetching female products: ", error);
       } finally {
@@ -42,6 +59,49 @@ export default function FemalePage() {
 
     fetchFemaleProducts();
   }, []);
+
+  // Function to apply filters and search
+  useEffect(() => {
+    const applyFiltersAndSearch = () => {
+      let updatedProducts = [...products];
+
+      // Filter by search query
+      if (searchQuery) {
+        updatedProducts = updatedProducts.filter((product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+
+      // Apply other filters
+      if (filters.types.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.types.includes(product.type)
+        );
+      }
+
+      if (filters.categories.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.categories.includes(product.category)
+        );
+      }
+
+      if (filters.genders.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.genders.includes(product.gender)
+        );
+      }
+
+      if (filters.sizes.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          product.size.some((size) => filters.sizes.includes(size))
+        );
+      }
+
+      setFilteredProducts(updatedProducts);
+    };
+
+    applyFiltersAndSearch();
+  }, [filters, products, searchQuery]); // Include searchQuery as a dependency
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("sr-RS", {
@@ -53,18 +113,24 @@ export default function FemalePage() {
   };
 
   const handleProductClick = (productId: string) => {
-    navigate(`/proizvod/${productId}`); 
+    navigate(`/proizvod/${productId}`);
+  };
+
+  const handleFilterChange = (newFilters: any) => {
+    setFilters(newFilters); 
   };
 
   return (
     <div className="female-page-container">
+      <Filter onFilterChange={handleFilterChange} />
+      
       {loading ? (
         <div className="loader">
           <ScaleLoader color="#1abc9c" />
         </div>
       ) : (
         <div className="female-products-grid">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div
               className="female-product-card"
               key={product.productId}

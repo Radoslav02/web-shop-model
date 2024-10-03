@@ -60,15 +60,28 @@
   gap: 10%;
 }
 
-.cart-container {
+.cart-header-container {
+  position: relative; 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-.cart-container,
+.cart-quantity {
+  position: absolute; 
+  top: -8px; /* Adjust this value to move it up */
+  right: 33px; /* Adjust this value to move it right */
+  background-color: rgb(0, 0, 0); 
+  color: white; 
+  border-radius: 50%; 
+  padding: 4px 8px; 
+  font-size: 11px;
+  font-weight: bold; 
+}
+
 .login-container,
-.contact-container, .admin-icon-container {
+.contact-container, 
+.admin-icon-container {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -76,169 +89,179 @@
   cursor: pointer;
 }
 
-.header-menu-label{
+.header-menu-label {
   cursor: pointer;
 }
 
-/* Za vrlo male uređaje (telefoni, manje od 576px) */
+/* For very small devices (phones, less than 576px) */
 @media (max-width: 575.98px) {
-    .header-container {
-        flex-direction: column;
-        gap: 10px;
-        min-height: 220px;
-        display: flex;
-        align-items: center;
-        
-      }
-    
-      .logo-container{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0;
-        padding: 0;
-      }
-      
-      .search-container{
-        margin-left: 25px;
-        width: 360px;
-      }
-    
-      .cart-container label,
-      .login-container label,
-      .contact-container label,
-      .admin-icon-container label {
-        display: none;
-      }
-
-      .header-menu-container{
-        display: flex;
-        justify-content: space-between;
-        width: 330px;
-        margin-bottom: 10px;
-      }
+  .header-container {
+    flex-direction: column;
+    gap: 10px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+  }
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+  .search-container {
+    margin-left: 25px;
+    width: 360px;
+  }
+  .cart-header-container label,
+  .login-container label,
+  .contact-container label,
+  .admin-icon-container label {
+    display: none;
+  }
+  .header-menu-container {
+    display: flex;
+    justify-content: space-between;
+    width: 330px;
+    margin-bottom: 10px;
+  }
+  .cart-quantity {
+    right: -12px;
+  }
 }
 
-/* Za male uređaje (telefoni u portret modu, 576px i više) */
+/* For small devices (phones in portrait mode, 576px and more) */
 @media (min-width: 576px) and (max-width: 767.98px) {
-    .header-container {
-        flex-direction: column;
-        gap: 10px;
-        min-height: 220px;
-        display: flex;
-        align-items: center;
-      }
-    
-      .logo-container{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0;
-        padding: 0;
-      }
-      
-      .search-container{
-        margin-left: 25px;
-        width: 360px;
-      }
-    
-      .cart-container label,
-      .login-container label,
-      .contact-container label,
-      .admin-icon-container label {
-        display: none;
-      }
+  .header-container {
+    flex-direction: column;
+    gap: 10px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+  
+  .search-container {
+    margin-left: 25px;
+    width: 360px;
+  }
+  
+  .cart-header-container label,
+  .login-container label,
+  .contact-container label,
+  .admin-icon-container label {
+    display: none;
+  }
 
-      .header-menu-container{
-        display: flex;
-        justify-content: space-between;
-        width: 330px;
-        margin-bottom: 10px;
-      }
+  .header-menu-container {
+    display: flex;
+    justify-content: space-between;
+    width: 330px;
+    margin-bottom: 10px;
+  }
+
+  .cart-quantity {
+    right: -12px;
+  }
 }
 
-/* Za srednje uređaje (tableti, 768px i više) */
+/* For medium devices (tablets, 768px and more) */
 @media (min-width: 768px) and (max-width: 991.98px) {
-    .header-container {
-        flex-direction: column;
-        gap: 10px;
-        min-height: 220px;
-        display: flex;
-        align-items: center;
-      }
-    
-      .logo-container{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0;
-        padding: 0;
-      }
-      
-      .search-container{
-        margin-left: 25px;
-        width: 360px;
-      }
-    
-      .cart-container label,
-      .login-container label,
-      .contact-container label,
-      .admin-icon-container label {
-        display: none;
-      }
-      
-      .header-menu-container{
-        display: flex;
-        justify-content: space-between;
-        width: 330px;
-        margin-bottom: 10px;
-      }
+  .header-container {
+    flex-direction: column;
+    gap: 10px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+  
+  .search-container {
+    margin-left: 25px;
+    width: 360px;
+  }
+  
+  .cart-header-container label,
+  .login-container label,
+  .contact-container label,
+  .admin-icon-container label {
+    display: none;
+  }
+  
+  .header-menu-container {
+    display: flex;
+    justify-content: space-between;
+    width: 330px;
+    margin-bottom: 10px;
+  }
+
+  .cart-quantity {
+    right: -12px;
+  }
 }
 
-/* Za velike uređaje (veći tableti ili mali laptopovi, 992px i više) */
+/* For large devices (larger tablets or small laptops, 992px and more) */
 @media (min-width: 992px) and (max-width: 1199.98px) {
-    .header-container {
-        flex-direction: column;
-        gap: 10px;
-        min-height: 220px;
-        display: flex;
-        align-items: center;
-      }
-    
-      .logo-container{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0;
-        padding: 0;
-      }
-      
-      .search-container{
-        margin-left: 25px;
-        width: 360px;
-      }
-    
-      .cart-container label,
-      .login-container label,
-      .contact-container label,
-      .admin-icon-container label {
-        display: none;
-      }
+  .header-container {
+    flex-direction: column;
+    gap: 10px;
+    min-height: 220px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    padding: 0;
+  }
+  
+  .search-container {
+    margin-left: 25px;
+    width: 360px;
+  }
+  
+  .cart-header-container label,
+  .login-container label,
+  .contact-container label,
+  .admin-icon-container label {
+    display: none;
+  }
 
-      .header-menu-container{
-        display: flex;
-        justify-content: space-between;
-        width: 330px;
-        margin-bottom: 10px;
-      }
+  .header-menu-container {
+    display: flex;
+    justify-content: space-between;
+    width: 330px;
+    margin-bottom: 10px;
+  }
+
+  .cart-quantity {
+    right: -12px;
+  }
 }
 
-/* Za vrlo velike uređaje (desktop računari, 1200px i više) */
-@media (min-width: 1200px) and (max-width: 1400px){
-    .header-container{
-        padding: 20px;
-    }
-    .logo-container{
-        padding: 0;
-    }
+/* For very large devices (desktop computers, 1200px and more) */
+@media (min-width: 1200px) and (max-width: 1400px) {
+  .header-container {
+    padding: 20px;
+  }
+  .logo-container {
+    padding: 0;
+  }
 }

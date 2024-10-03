@@ -1,64 +1,69 @@
 import "./Header.css";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import PhoneOutlinedIcon from '@mui/icons-material/PhoneOutlined';
+import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
+import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import { useNavigate } from "react-router-dom";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "../Redux/store";
-import AdminPanelSettingsOutlinedIcon from '@mui/icons-material/AdminPanelSettingsOutlined';
-import LogoX from "../../assets/LogoX.png" 
+import { setSearchQuery } from '../Redux/searchSlice'; // Import the action
+import LogoX from "../../assets/LogoX.png";
 
 export default function Header() {
   const navigate = useNavigate();
-
-  // Pristupi Redux stanju
+  const dispatch = useDispatch();
   const user = useSelector((state: RootState) => state.auth.user);
-  
-  // Proveri da li je korisnik admin
   const isAdmin = user?.isAdmin;
+
+  // Get cart items and calculate total items
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const totalItems = cartItems.length; // Calculate total items
+
+  // Handle search input change
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    dispatch(setSearchQuery(event.target.value)); // Dispatch the search query to Redux
+  };
 
   return (
     <div className="header-container">
-      <div className="logo-container">
-        <img
-          src={LogoX}
-          alt="Ovde ide slika"
-          className="logo-picture"
-          onClick={() => navigate("/početna")}
-        />
-        <h1 onClick={() => navigate("/početna")}>My company</h1>
+      <div className="logo-container" onClick={() => navigate("/početna")}>
+        <img src={LogoX} alt="Logo" className="logo-picture" />
+        <h1>My company</h1>
       </div>
       <div className="search-container">
         <input
           className="search-input"
           type="text"
           placeholder="Pretražite ovde"
+          onChange={handleSearchChange} // Add onChange to capture input
         />
         <div className="search-icon-container">
           <SearchOutlinedIcon sx={{ fontSize: 30 }} />
         </div>
       </div>
       <div className="header-menu-container">
-        <div className="cart-container" onClick={() => navigate("/korpa")}>
+        <div className="cart-header-container" onClick={() => navigate("/korpa")}>
           <ShoppingCartOutlinedIcon sx={{ fontSize: 40 }} />
+          {totalItems > 0 && ( // Only show the quantity if there are items
+            <span className="cart-quantity">{totalItems}</span>
+          )}
           <label className="header-menu-label">Korpa</label>
         </div>
         <div className="login-container" onClick={() => navigate(user ? "/profil" : "/prijava")}>
           <AccountCircleOutlinedIcon sx={{ fontSize: 40 }} />
-          <label className="header-menu-label">{user ? 'Profil' : 'Prijava'}</label>
+          <label className="header-menu-label">{user ? "Profil" : "Prijava"}</label>
         </div>
-        <div className="contact-container" onClick={() => navigate("/kontakt")}>
-          <PhoneOutlinedIcon sx={{ fontSize: 40 }} />
-          <label className="header-menu-label">Kontakt</label>
-        </div>
-        {/* Show icon only if admin is logged in*/}
         {isAdmin && (
           <div className="admin-icon-container" onClick={() => navigate("/admin/panel")}>
             <AdminPanelSettingsOutlinedIcon sx={{ fontSize: 40 }} />
             <label className="header-menu-label">Admin</label>
           </div>
         )}
+        <div className="contact-container">
+          <PhoneOutlinedIcon sx={{ fontSize: 40 }} />
+          <label className="header-menu-label">Kontakt</label>
+        </div>
       </div>
     </div>
   );

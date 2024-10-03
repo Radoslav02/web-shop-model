@@ -36,7 +36,19 @@ const LoginPage = () => {
 
       if (userDocSnap.exists()) {
         const userData = userDocSnap.data();
-        dispatch(login({ email: user.email!, isAdmin: userData.isAdmin }));
+        
+        // Dispatch the full user object to Redux
+        dispatch(login({
+          email: user.email!,
+          isAdmin: userData.isAdmin,
+          name: userData.name,
+          number: userData.number,
+          phoneNumber: userData.phoneNumber,
+          place: userData.place,
+          postalCode: userData.postalCode,
+          street: userData.street,
+          surname: userData.surname,
+        }));
 
         if (userData.isAdmin) {
           navigate("/admin/panel");

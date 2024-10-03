@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { doc, getDoc } from "firebase/firestore";
+import { useDispatch } from 'react-redux';
+import { addToCart } from "../Redux/cartSlice";
+import { toast } from 'react-toastify'; // Import toast
+import 'react-toastify/dist/ReactToastify.css'; // Import toast styles
 import "./ItemDetails.css";
 
 type Product = {
@@ -22,6 +26,9 @@ export default function ItemDetails() {
   const [selectedSize, setSelectedSize] = useState<string | null>(null);
   const [isSizeSelected, setIsSizeSelected] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -83,15 +90,33 @@ export default function ItemDetails() {
     setIsSizeSelected(true);
     setErrorMessage(null);
   };
+const handleAddToCart = () => {
+  if (!isSizeSelected) {
+    setErrorMessage("Odaberite veličinu");
+  } else if (!product?.productId) {
+    setErrorMessage("Proizvod ID nije dostupan.");
+  } else {
+    // Dispatch the action to add the product to the cart
+    dispatch(addToCart({
+      productId: product.productId, // We know it's defined here
+      name: product.name,
+      price: product.price,
+      image: selectedImage as string, // Ensure image is string
+      size: selectedSize as string // Ensure size is string
+    }));
 
-  const handleAddToCart = () => {
-    if (!isSizeSelected) {
-      setErrorMessage("Odaberite veličinu");
-    } else {
-      console.log("Item added to cart with size:", selectedSize);
-      setErrorMessage(null);
-    }
-  };
+    // Show success toast notification
+    toast.success("Proizvod je uspešno dodat u korpu!");
+
+    // Redirect to home after a short delay
+    setTimeout(() => {
+      navigate("/početna");
+    }, 1500);
+
+    setErrorMessage(null);
+  }
+};
+
 
   return (
     <div className="item-details-container">
@@ -106,9 +131,7 @@ export default function ItemDetails() {
                   key={index}
                   src={image}
                   alt={`${product.name} thumbnail ${index + 1}`}
-                  className={`thumbnail ${
-                    selectedImage === image ? "selected" : ""
-                  }`}
+                  className={`thumbnail ${selectedImage === image ? "selected" : ""}`}
                   onClick={() => setSelectedImage(image)}
                 />
               ))}
@@ -134,9 +157,7 @@ export default function ItemDetails() {
                   {product.size.map((size) => (
                     <button
                       key={size}
-                      className={`size-button ${
-                        selectedSize === size ? "selected" : ""
-                      }`}
+                      className={`size-button ${selectedSize === size ? "selected" : ""}`}
                       onClick={() => handleSizeChange(size)}
                     >
                       {size}

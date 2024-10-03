@@ -12,6 +12,7 @@ import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import FemalePage from "./components/FemalePage/FemalePage";
 import MalePage from "./components/MalePage/MalePage";
 import ItemDetails from "./components/ItemDetails/ItemDetails";
+import Order from "./components/Order/Order";
 
 export const router = createHashRouter([
   {
@@ -65,6 +66,10 @@ export const router = createHashRouter([
       {
         path: "/proizvod/:productId", // Dynamic route for item details
         element: <ItemDetails />, // Render the ItemDetails component
+      },
+      {
+        path: "/poručivanje", 
+        element: <Order />, 
       },
     ],
   },

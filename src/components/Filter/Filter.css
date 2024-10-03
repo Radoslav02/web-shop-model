@@ -1,0 +1,36 @@
+.filter-container {
+    margin-bottom: 20px;
+    color: black;
+    padding-left: 20px;
+    height: 100%;
+    width: 200px;
+    display: flex;            
+    flex-direction: column;     
+    gap: 20px;    
+}
+
+.filter-form{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.filter-form h3{
+    border-bottom: 3px solid black;
+    margin-bottom: 5px;
+}
+
+.filter-inputs{
+    display: flex;
+    gap: 10px;
+}
+
+.checkbox-input{
+    width: 20px;
+    height: 20px;
+}
+
+.checkbox-input{
+    background-color: black;
+}
+

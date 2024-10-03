@@ -4,30 +4,44 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 import "./MalePage.css";
 import { ScaleLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
+import Filter from "../Filter/Filter"; 
+import { useSelector } from 'react-redux';
+import { RootState } from "../Redux/store";
 
 type Product = {
   productId: string;
   name: string;
   price: number;
   images: string[];
+  gender: string;
+  type: string; 
+  category: string; 
+  size: string[]; 
 };
 
 export default function MalePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
+  const [filters, setFilters] = useState({
+    types: [] as string[],
+    categories: [] as string[],
+    genders: [] as string[],
+    sizes: [] as string[],
+  });
+
   const navigate = useNavigate();
+  const searchQuery = useSelector((state: RootState) => state.search.query); 
 
   useEffect(() => {
     const fetchMaleProducts = async () => {
       setLoading(true);
       try {
-        // Reference to the products collection
         const q = query(
           collection(db, "products"),
           where("gender", "==", "male")
         );
 
-        // Fetch products
         const querySnapshot = await getDocs(q);
         const fetchedProducts: Product[] = querySnapshot.docs.map((doc) => ({
           productId: doc.id,
@@ -35,6 +49,7 @@ export default function MalePage() {
         })) as Product[];
 
         setProducts(fetchedProducts);
+        setFilteredProducts(fetchedProducts); 
       } catch (error) {
         console.error("Error fetching male products: ", error);
       } finally {
@@ -44,6 +59,49 @@ export default function MalePage() {
 
     fetchMaleProducts();
   }, []);
+
+
+  useEffect(() => {
+    const applyFiltersAndSearch = () => {
+      let updatedProducts = [...products];
+
+      // Filter by search query
+      if (searchQuery) {
+        updatedProducts = updatedProducts.filter((product) =>
+          product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+      }
+
+      // Apply other filters
+      if (filters.types.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.types.includes(product.type)
+        );
+      }
+
+      if (filters.categories.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.categories.includes(product.category)
+        );
+      }
+
+      if (filters.genders.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          filters.genders.includes(product.gender)
+        );
+      }
+
+      if (filters.sizes.length > 0) {
+        updatedProducts = updatedProducts.filter((product) =>
+          product.size.some((size) => filters.sizes.includes(size))
+        );
+      }
+
+      setFilteredProducts(updatedProducts);
+    };
+
+    applyFiltersAndSearch();
+  }, [filters, products, searchQuery]); 
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("sr-RS", {
@@ -55,27 +113,33 @@ export default function MalePage() {
   };
 
   const handleProductClick = (productId: string) => {
-    navigate(`/proizvod/${productId}`); 
+    navigate(`/proizvod/${productId}`);
+  };
+
+  const handleFilterChange = (newFilters: any) => {
+    setFilters(newFilters); 
   };
 
   return (
     <div className="male-page-container">
+      <Filter onFilterChange={handleFilterChange} /> 
+      
       {loading ? (
-         <div className="loader">
-         <ScaleLoader color="#1abc9c" />
-       </div>
+        <div className="loader">
+          <ScaleLoader color="#1abc9c" />
+        </div>
       ) : (
         <div className="male-products-grid">
-          {products.map((product) => (
+          {filteredProducts.map((product) => (
             <div className="male-product-card" key={product.productId}
-            onClick={() => handleProductClick(product.productId)} >
+            onClick={() => handleProductClick(product.productId)}>
               <img
-                src={product.images[0]} 
+                src={product.images[0]}
                 alt={product.name}
                 className="male-product-image"
               />
               <h3 className="male-product-name">{product.name}</h3>
-              <p className="fdemale-product-price">{formatPrice(product.price)}</p>
+              <p className="female-product-price">{formatPrice(product.price)}</p>
             </div>
           ))}
         </div>
