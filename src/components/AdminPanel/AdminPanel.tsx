@@ -10,8 +10,9 @@ import Tooltip from "@mui/material/Tooltip";
 import { ScaleLoader } from "react-spinners";
 import EditItemModal from "../Modals/EditItemModal";
 import Filter from "../Filter/Filter"; // Import the Filter component
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { RootState } from "../Redux/store";
+import Sort from "../../Sort/Sort"; // Import the Sort component
 
 type Product = {
   productId: string;
@@ -42,6 +43,7 @@ export default function AdminPanel() {
     genders: [] as string[],
     sizes: [] as string[],
   });
+  const [sortBy, setSortBy] = useState<string>("nameAsc"); // State to store the selected sorting option
 
   const searchQuery = useSelector((state: RootState) => state.search.query); // Search query from Redux store
 
@@ -138,6 +140,10 @@ export default function AdminPanel() {
     setFilters(newFilters);
   };
 
+  const handleSortChange = (sortBy: string) => {
+    setSortBy(sortBy);
+  };
+
   useEffect(() => {
     const applyFiltersAndSearch = () => {
       let updatedProducts = [...products];
@@ -174,11 +180,22 @@ export default function AdminPanel() {
         );
       }
 
+      // Apply sorting
+      if (sortBy === "nameAsc") {
+        updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortBy === "nameDesc") {
+        updatedProducts.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (sortBy === "priceAsc") {
+        updatedProducts.sort((a, b) => a.price - b.price);
+      } else if (sortBy === "priceDesc") {
+        updatedProducts.sort((a, b) => b.price - a.price);
+      }
+
       setFilteredProducts(updatedProducts);
     };
 
     applyFiltersAndSearch();
-  }, [filters, products, searchQuery]);
+  }, [filters, products, searchQuery, sortBy]);
 
   const handleEditItemClick = (product: Product) => {
     setSelectedProduct(product);
@@ -192,6 +209,7 @@ export default function AdminPanel() {
         <EditItemModal product={selectedProduct} onClose={handleCloseEditItemModal} />
       )}
       <Filter onFilterChange={handleFilterChange} />
+      <Sort onSortChange={handleSortChange} /> {/* Add Sort Component */}
       <div className="product-list">
         <div className="add-item-card" onClick={handleNewItemClicked}>
           <AddCircleIcon className="add-icon" sx={{ fontSize: 80 }} />

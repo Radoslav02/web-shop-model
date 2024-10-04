@@ -1,58 +1,58 @@
-.edit-item-modal-container{
-    width: 100%;
-    height: 100%;
-    position: fixed;
-    inset: 0;
-    z-index: 5;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(128, 128, 128, 0.667);
+.edit-item-modal-container {
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(128, 128, 128, 0.667);
 }
 
-.edit-item-form{
-    background-color: rgb(255, 255, 255);
-    width: 700px;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 0 0px 20px 0px;
-    overflow-y: auto;
-    scrollbar-width: thin;
-    scrollbar-color: rgba(0, 0, 0, 0.5) #1abc9c;
+.edit-item-form {
+  background-color: rgb(255, 255, 255);
+  width: 700px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  gap: 35px;
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 0 0px 20px 0px;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.5) #1abc9c;
 }
 
-.edit-item-form h2{
-    text-align: center;
-    background-color: #1abc9c;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.edit-item-form h2 {
+  text-align: center;
+  background-color: #1abc9c;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.edit-form-group{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-    gap: 5px;
+.edit-form-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 5px;
 }
 
-.edit-form-group input{
-    height: 40px;
-    width: 350px;
-    font-size: 16px !important;
-    border-radius: 5px;
-    background-color: #dafff8;
-    border: none;
-    padding: 10px;
+.edit-form-group input {
+  height: 40px;
+  width: 350px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: none;
+  padding: 10px;
 }
 
-.edit-form-group textarea{
+.edit-form-group textarea {
   height: 80px;
   width: 350px;
   font-size: 16px !important;
@@ -62,66 +62,54 @@
   padding: 10px;
 }
 
-.edit-form-group select{
-    height: 40px;
-    width: 350px;
-    font-size: 16px !important;
-    border-radius: 5px;
-    background-color: #dafff8;
-    border: none;
-    padding: 10px;
+.edit-form-group select {
+  height: 40px;
+  width: 350px;
+  font-size: 16px !important;
+  border-radius: 5px;
+  background-color: #dafff8;
+  border: none;
+  padding: 10px;
 }
 
 .image-preview-container {
-    position: relative;
-    display: inline-block;
-    margin: 5px;
-  }
-  
-  .image-preview {
-    width: 100px; 
-    height: 100px; 
-    object-fit: cover;
-  }
-  
-  .remove-image-icon {
-    width: 20px;
-    height: 20px;
-    position: absolute;
-    top: 0px; 
-    right: -5px; 
-    color: rgb(255, 255, 255); 
-    font-size: 12px; 
-    cursor: pointer; 
-    background: rgb(0, 0, 0); 
-    border-radius: 50%; 
-    padding: 2px; 
-    align-items: center;
-    display: flex;
-    justify-content: center;
-  }
+  position: relative;
+  display: inline-block;
+  margin: 5px;
+}
 
-  /* Media Queries for Responsiveness */
+.image-preview {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+
+.remove-image-icon {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  color: rgb(255, 255, 255);
+  font-size: 12px;
+  cursor: pointer;
+  background: rgb(0, 0, 0);
+  border-radius: 50%;
+  padding: 2px;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
-    .edit-item-form {
-      width: 95%; /* Adjust width for smaller screens */
-    }
-  
-   
-  
- 
-  
-    
+  .edit-item-form {
+    width: 95%; 
   }
-  
-  @media (max-width: 480px) {
-    .edit-item-form {
-      gap: 20px; /* Reduce gap for smaller screens */
-    }
-  
-   
-    
+}
+
+@media (max-width: 480px) {
+  .edit-item-form {
+    gap: 20px; 
   }
-  
-    
-  
+}

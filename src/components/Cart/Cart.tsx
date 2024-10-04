@@ -2,7 +2,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import { RootState } from "../Redux/store";
 import { removeFromCart } from "../Redux/cartSlice";
-import DeleteIcon from '@mui/icons-material/Delete';
+import DeleteIcon from "@mui/icons-material/Delete";
 import "./Cart.css";
 
 export default function Cart() {
@@ -17,7 +17,7 @@ export default function Cart() {
 
   // Calculate total price
   const totalPrice = cartItems.reduce((total, item) => total + item.price, 0);
-  const deliveryCost = 350.00; // Delivery cost
+  const deliveryCost = 350.0; // Delivery cost
   const finalTotal = totalPrice + deliveryCost;
 
   // Function to format price
@@ -45,7 +45,7 @@ export default function Cart() {
       },
       total: finalTotal,
     };
-    navigate('/poručivanje', { state: orderDetails }); // Navigate to the ordering page with state
+    navigate("/poručivanje", { state: orderDetails });
   };
 
   return (
@@ -63,11 +63,13 @@ export default function Cart() {
               <div className="cart-item-details">
                 <p className="cart-item-name">{item.name}</p>
                 <p>Veličina: {item.size}</p>
-                <p className="cart-item-price">Cena: {formatPrice(item.price)}</p> 
+                <p className="cart-item-price">
+                  Cena: {formatPrice(item.price)}
+                </p>
               </div>
-              <div 
-                className="cart-delete-button" 
-                onClick={() => handleRemoveItem(item.productId)} 
+              <div
+                className="cart-delete-button"
+                onClick={() => handleRemoveItem(item.productId)}
                 aria-label="delete"
               >
                 <DeleteIcon sx={{ fontSize: 35 }} />
@@ -75,13 +77,17 @@ export default function Cart() {
             </div>
           ))}
           <div className="total-price-container">
-            <h4>Ukupna cena: {formatPrice(totalPrice)}</h4> 
-            <h4>Troškovi dostave: {formatPrice(deliveryCost)}</h4> 
-            <h3>Ukupno za plaćanje: {formatPrice(finalTotal)}</h3> 
+            <h4>Ukupna cena: {formatPrice(totalPrice)}</h4>
+            <h4>Troškovi dostave: {formatPrice(deliveryCost)}</h4>
+            <h3>Ukupno za plaćanje: {formatPrice(finalTotal)}</h3>
           </div>
-          <button onClick={handleOrder} className="order-button">
-            Poruči
-          </button>
+
+          <div className="cart-button-wrapper">
+            <button className="to-home-button" onClick={() => navigate("/početna")}>Početna</button>
+            <button onClick={handleOrder} className="order-button">
+              Poruči
+            </button>
+          </div>
         </div>
       )}
     </div>

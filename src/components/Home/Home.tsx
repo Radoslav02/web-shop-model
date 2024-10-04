@@ -2,11 +2,12 @@ import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { useSelector } from 'react-redux';
-import { RootState } from "../Redux/store"; // Import the RootState
+import { RootState } from "../Redux/store"; 
 import "./Home.css";
 import { ScaleLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import Filter from "../Filter/Filter";
+import Sort from "../../Sort/Sort"; 
 
 type Product = {
   productId: string;
@@ -29,8 +30,9 @@ export default function Home() {
     genders: [] as string[],
     sizes: [] as string[],
   });
+  const [sortBy, setSortBy] = useState<string>("nameAsc"); 
 
-  const searchQuery = useSelector((state: RootState) => state.search.query); // Get the search query
+  const searchQuery = useSelector((state: RootState) => state.search.query); 
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -95,6 +97,36 @@ export default function Home() {
     applyFilters();
   }, [filters, products, searchQuery]); // Include searchQuery as a dependency
 
+  useEffect(() => {
+    const sortProducts = () => {
+      let sortedProducts = [...filteredProducts];
+
+      switch (sortBy) {
+        case "nameAsc":
+          sortedProducts.sort((a, b) => a.name.localeCompare(b.name));
+          break;
+        case "nameDesc":
+          sortedProducts.sort((a, b) => b.name.localeCompare(a.name));
+          break;
+        case "priceAsc":
+          sortedProducts.sort((a, b) => a.price - b.price);
+          break;
+        case "priceDesc":
+          sortedProducts.sort((a, b) => b.price - a.price);
+          break;
+        default:
+          break;
+      }
+
+      // Only update filteredProducts if it has changed
+      if (JSON.stringify(filteredProducts) !== JSON.stringify(sortedProducts)) {
+        setFilteredProducts(sortedProducts);
+      }
+    };
+
+    sortProducts();
+  }, [sortBy, filteredProducts]); // Include sortBy as a dependency, but manage updates carefully
+
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("sr-RS", {
       style: "currency",
@@ -112,9 +144,14 @@ export default function Home() {
     setFilters(newFilters);
   };
 
+  const handleSortChange = (sort: string) => {
+    setSortBy(sort);
+  };
+
   return (
     <div className="home-page-container">
       <Filter onFilterChange={handleFilterChange} />
+      <Sort onSortChange={handleSortChange} /> {/* Include the Sort component */}
 
       {loading ? (
         <div className="loader">

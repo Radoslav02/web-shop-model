@@ -59,11 +59,11 @@
 }
 
 .loader {
-    position: fixed; /* Use fixed positioning to center the loader */
-    top: 50%; /* Center vertically */
-    left: 50%; /* Center horizontally */
-    transform: translate(-50%, -50%); /* Adjust for element's dimensions */
-    z-index: 1000; /* Ensure it is above other elements */
+    position: fixed; 
+    top: 50%; 
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000; 
 }
 
 

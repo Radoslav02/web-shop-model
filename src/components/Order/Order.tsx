@@ -1,9 +1,11 @@
-import { useLocation } from 'react-router-dom';
+// Order.tsx
+import { useLocation, useNavigate } from 'react-router-dom';
 import emailjs from 'emailjs-com';
 import { useState } from 'react';
-import { useSelector } from 'react-redux'; // Import useSelector
+import { useSelector, useDispatch } from 'react-redux'; 
 import { RootState } from '../Redux/store';
-
+import { clearCart } from '../Redux/cartSlice'; 
+import "./Order.css"
 
 interface Customer {
   email: string;
@@ -18,26 +20,27 @@ interface Customer {
 
 interface Item {
   name: string;
-  size: string; // Adjust type as needed
-  price: number; // Adjust type as needed
+  size: string; 
+  price: number; 
 }
 
 const Order = () => {
   const location = useLocation();
-  
-  // Type the state object
+  const navigate = useNavigate(); 
+  const dispatch = useDispatch(); 
+
   const { customer, total } = location.state as {
     customer: Customer; 
     total: number; 
   } || {}; 
 
-  const items = useSelector((state: RootState) => state.cart.items); // Get items from Redux store
+  const items = useSelector((state: RootState) => state.cart.items); 
 
   const [isEmailSent, setIsEmailSent] = useState(false);
 
   const sendEmail = () => {
     if (!items || items.length === 0) {
-      alert("Nema poručenih proizvoda."); // Notify the user about empty items
+      alert("Nema poručenih proizvoda."); 
       return;
     }
 
@@ -56,7 +59,9 @@ const Order = () => {
   
     emailjs.send('service_zf9aerk', 'template_gd7rbar', templateParams, '83kRfB6jgzmb21MF0')
       .then(() => {
+        dispatch(clearCart());
         setIsEmailSent(true);
+        navigate('/potvrda'); 
       })
       .catch((error) => {
         console.error('Email sending error:', error);
@@ -64,12 +69,22 @@ const Order = () => {
       });
   };
 
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("sr-RS", {
+      style: "currency",
+      currency: "RSD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    }).format(price);
+  };
+
   return (
-    <div>
+    <div className="order-container">
       <h2>Detalji porudžbine</h2>
       {customer ? (
-        <div>
+        <div className="customer-info-wrapper">
           <h3>Podaci o klijentu:</h3>
+          <div className="show-profile">
           <p>Email: {customer.email}</p>
           <p>Ime: {customer.name}</p>
           <p>Broj: {customer.number}</p>
@@ -78,13 +93,17 @@ const Order = () => {
           <p>Poštanski broj: {customer.postalCode}</p>
           <p>Ulica: {customer.street}</p>
           <p>Prezime: {customer.surname}</p>
-          <h3>Ukupno za plaćanje: {total}</h3>
-          <button onClick={sendEmail}>Poruci</button>
-          {isEmailSent && <p>Poruka je uspešno poslata!</p>}
+          <h3>Ukupno za plaćanje:{formatPrice(total)}</h3>
+          </div>
         </div>
       ) : (
         <p>Nema podataka o klijentu.</p>
       )}
+      <div className="order-button-wrapper">
+      <button className="back-button" onClick={() => navigate(-1)}>Nazad</button>
+       <button className="order-button" onClick={sendEmail}>Poruči</button>
+       {isEmailSent && <p>Poruka je uspešno poslata!</p>}
+       </div>
     </div>
   );
 };

@@ -5,8 +5,9 @@ import { useNavigate } from "react-router-dom";
 import "./FemalePage.css";
 import { ScaleLoader } from "react-spinners";
 import Filter from "../Filter/Filter"; 
-import { useSelector } from 'react-redux'; // Import useSelector
-import { RootState } from "../Redux/store"; // Import RootState
+import Sort from "../../Sort/Sort"; // Import the Sort component
+import { useSelector } from 'react-redux'; 
+import { RootState } from "../Redux/store"; 
 
 type Product = {
   productId: string;
@@ -29,9 +30,10 @@ export default function FemalePage() {
     genders: [] as string[],
     sizes: [] as string[],
   });
+  const [sortBy, setSortBy] = useState<string>(''); // State for sorting
   
   const navigate = useNavigate();
-  const searchQuery = useSelector((state: RootState) => state.search.query); // Get the search query
+  const searchQuery = useSelector((state: RootState) => state.search.query);
 
   useEffect(() => {
     const fetchFemaleProducts = async () => {
@@ -60,9 +62,9 @@ export default function FemalePage() {
     fetchFemaleProducts();
   }, []);
 
-  // Function to apply filters and search
+  // Function to apply filters, search, and sort
   useEffect(() => {
-    const applyFiltersAndSearch = () => {
+    const applyFiltersAndSort = () => {
       let updatedProducts = [...products];
 
       // Filter by search query
@@ -72,7 +74,7 @@ export default function FemalePage() {
         );
       }
 
-      // Apply other filters
+      // Apply filters
       if (filters.types.length > 0) {
         updatedProducts = updatedProducts.filter((product) =>
           filters.types.includes(product.type)
@@ -97,11 +99,22 @@ export default function FemalePage() {
         );
       }
 
+      // Apply sorting
+      if (sortBy === "nameAsc") {
+        updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortBy === "nameDesc") {
+        updatedProducts.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (sortBy === "priceAsc") {
+        updatedProducts.sort((a, b) => a.price - b.price);
+      } else if (sortBy === "priceDesc") {
+        updatedProducts.sort((a, b) => b.price - a.price);
+      }
+
       setFilteredProducts(updatedProducts);
     };
 
-    applyFiltersAndSearch();
-  }, [filters, products, searchQuery]); // Include searchQuery as a dependency
+    applyFiltersAndSort();
+  }, [filters, products, searchQuery, sortBy]); // Include sortBy as a dependency
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("sr-RS", {
@@ -120,9 +133,14 @@ export default function FemalePage() {
     setFilters(newFilters); 
   };
 
+  const handleSortChange = (sortBy: string) => {
+    setSortBy(sortBy); // Update sortBy state when Sort component changes
+  };
+
   return (
     <div className="female-page-container">
       <Filter onFilterChange={handleFilterChange} />
+      <Sort onSortChange={handleSortChange} /> {/* Include Sort component */}
       
       {loading ? (
         <div className="loader">

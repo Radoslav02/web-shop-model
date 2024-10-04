@@ -13,6 +13,7 @@ import FemalePage from "./components/FemalePage/FemalePage";
 import MalePage from "./components/MalePage/MalePage";
 import ItemDetails from "./components/ItemDetails/ItemDetails";
 import Order from "./components/Order/Order";
+import Confirmation from "./components/Confirmation/Confirmation";
 
 export const router = createHashRouter([
   {
@@ -46,6 +47,10 @@ export const router = createHashRouter([
       {
         path: "/muškarci",
         element: <MalePage />
+      },
+      {
+        path: "/potvrda",
+        element: <Confirmation />
       },
       {
         path: "/profil",

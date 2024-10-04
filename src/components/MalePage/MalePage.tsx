@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 import "./MalePage.css";
 import { ScaleLoader } from "react-spinners";
-import { useNavigate } from "react-router-dom";
 import Filter from "../Filter/Filter"; 
+import Sort from "../../Sort/Sort"; // Import the Sort component
 import { useSelector } from 'react-redux';
 import { RootState } from "../Redux/store";
 
@@ -29,7 +30,8 @@ export default function MalePage() {
     genders: [] as string[],
     sizes: [] as string[],
   });
-
+  const [sortBy, setSortBy] = useState<string>(''); // State for sorting
+  
   const navigate = useNavigate();
   const searchQuery = useSelector((state: RootState) => state.search.query); 
 
@@ -60,9 +62,8 @@ export default function MalePage() {
     fetchMaleProducts();
   }, []);
 
-
   useEffect(() => {
-    const applyFiltersAndSearch = () => {
+    const applyFiltersAndSort = () => {
       let updatedProducts = [...products];
 
       // Filter by search query
@@ -72,7 +73,7 @@ export default function MalePage() {
         );
       }
 
-      // Apply other filters
+      // Apply filters
       if (filters.types.length > 0) {
         updatedProducts = updatedProducts.filter((product) =>
           filters.types.includes(product.type)
@@ -97,11 +98,22 @@ export default function MalePage() {
         );
       }
 
+      // Apply sorting
+      if (sortBy === "nameAsc") {
+        updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortBy === "nameDesc") {
+        updatedProducts.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (sortBy === "priceAsc") {
+        updatedProducts.sort((a, b) => a.price - b.price);
+      } else if (sortBy === "priceDesc") {
+        updatedProducts.sort((a, b) => b.price - a.price);
+      }
+
       setFilteredProducts(updatedProducts);
     };
 
-    applyFiltersAndSearch();
-  }, [filters, products, searchQuery]); 
+    applyFiltersAndSort();
+  }, [filters, products, searchQuery, sortBy]); // Include sortBy as a dependency
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("sr-RS", {
@@ -120,10 +132,15 @@ export default function MalePage() {
     setFilters(newFilters); 
   };
 
+  const handleSortChange = (sortBy: string) => {
+    setSortBy(sortBy); // Update sortBy state when Sort component changes
+  };
+
   return (
     <div className="male-page-container">
-      <Filter onFilterChange={handleFilterChange} /> 
-      
+      <Filter onFilterChange={handleFilterChange} />
+      <Sort onSortChange={handleSortChange} /> {/* Include Sort component */}
+
       {loading ? (
         <div className="loader">
           <ScaleLoader color="#1abc9c" />
@@ -131,15 +148,18 @@ export default function MalePage() {
       ) : (
         <div className="male-products-grid">
           {filteredProducts.map((product) => (
-            <div className="male-product-card" key={product.productId}
-            onClick={() => handleProductClick(product.productId)}>
+            <div
+              className="male-product-card"
+              key={product.productId}
+              onClick={() => handleProductClick(product.productId)} 
+            >
               <img
-                src={product.images[0]}
+                src={product.images[0]} 
                 alt={product.name}
                 className="male-product-image"
               />
               <h3 className="male-product-name">{product.name}</h3>
-              <p className="female-product-price">{formatPrice(product.price)}</p>
+              <p className="male-product-price">{formatPrice(product.price)}</p>
             </div>
           ))}
         </div>
