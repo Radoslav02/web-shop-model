@@ -1,6 +1,7 @@
 import { useState } from "react";
-import emailjs from "emailjs-com"; // Import emailjs
+import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { RootState } from "../Redux/store";
 import "./Contact.css";
 
 export default function ContactUs() {
@@ -10,7 +11,9 @@ export default function ContactUs() {
   const [message, setMessage] = useState("");
   const [isSending, setIsSending] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const userEmail = useSelector((state: RootState) => state.auth.user?.email);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (!firstName || !lastName || !email || !message) {
@@ -24,29 +27,33 @@ export default function ContactUs() {
       from_name: `${firstName} ${lastName}`,
       from_email: email,
       message: message,
+      to: userEmail || 'default@example.com',
     };
 
-    emailjs
-      .send(
-        "service_zf9aerk",
-        "template_gdn2y8x",
-        templateParams,
-        "83kRfB6jgzmb21MF0"
-      )
-      .then((response) => {
-        console.log("Success:", response);
-        setFirstName("");
-        setLastName("");
-        setEmail("");
-        setMessage("");
-        toast.success("Message sent successfully!");
-        setIsSending(false);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-        toast.error("Failed to send message. Please try again.");
-        setIsSending(false);
+    try {
+      const response = await fetch('http://localhost:5000/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(templateParams),
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to send email');
+      }
+
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setMessage("");
+      toast.success("Message sent successfully!");
+    } catch (error) {
+      console.error("Error:", error);
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setIsSending(false);
+    }
   };
 
   return (
@@ -54,7 +61,7 @@ export default function ContactUs() {
       <form className="contact-page-form" onSubmit={handleSubmit}>
         <h1>Kontaktirajte nas</h1>
         <div className="name-surname-contact-wrapper">
-          <div className="conatact-input-wrapper">
+          <div className="contact-input-wrapper">
             <label>Ime:</label>
             <input
               type="text"
@@ -63,7 +70,7 @@ export default function ContactUs() {
               className="name-input"
             />
           </div>
-          <div className="conatact-input-wrapper">
+          <div className="contact-input-wrapper">
             <label>Prezime:</label>
             <input
               type="text"
@@ -73,7 +80,7 @@ export default function ContactUs() {
             />
           </div>
         </div>
-        <div className="conatact-input-wrapper">
+        <div className="contact-input-wrapper">
           <label>E-mail:</label>
           <input
             type="email"
@@ -82,7 +89,7 @@ export default function ContactUs() {
             className="contact-email-input"
           />
         </div>
-        <div className="conatact-input-wrapper">
+        <div className="contact-input-wrapper">
           <label>Poruka:</label>
           <textarea
             value={message}
