@@ -12,7 +12,7 @@ import EditItemModal from "../Modals/EditItemModal";
 import Filter from "../Filter/Filter"; // Import the Filter component
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/store";
-import Sort from "../../Sort/Sort"; // Import the Sort component
+import Sort from "../Sort/Sort"; // Import the Sort component
 
 type Product = {
   productId: string;

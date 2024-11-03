@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import "./MalePage.css";
 import { ScaleLoader } from "react-spinners";
 import Filter from "../Filter/Filter"; 
-import Sort from "../../Sort/Sort"; // Import the Sort component
+import Sort from "../Sort/Sort"; // Import the Sort component
 import { useSelector } from 'react-redux';
 import { RootState } from "../Redux/store";
 

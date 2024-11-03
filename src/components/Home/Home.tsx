@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
-import { useSelector } from 'react-redux';
-import { RootState } from "../Redux/store"; 
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/store";
 import "./Home.css";
 import { ScaleLoader } from "react-spinners";
 import { useNavigate } from "react-router-dom";
 import Filter from "../Filter/Filter";
-import Sort from "../../Sort/Sort"; 
+import Sort from "../Sort/Sort";
 
 type Product = {
   productId: string;
@@ -30,9 +30,9 @@ export default function Home() {
     genders: [] as string[],
     sizes: [] as string[],
   });
-  const [sortBy, setSortBy] = useState<string>("nameAsc"); 
+  const [sortBy, setSortBy] = useState<string>("nameAsc");
 
-  const searchQuery = useSelector((state: RootState) => state.search.query); 
+  const searchQuery = useSelector((state: RootState) => state.search.query);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -151,29 +151,33 @@ export default function Home() {
   return (
     <div className="home-page-container">
       <Filter onFilterChange={handleFilterChange} />
-      <Sort onSortChange={handleSortChange} /> {/* Include the Sort component */}
-
       {loading ? (
         <div className="loader">
           <ScaleLoader color="#1abc9c" />
         </div>
       ) : (
-        <div className="home-products-grid">
-          {filteredProducts.map((product) => (
-            <div
-              className="home-product-card"
-              key={product.productId}
-              onClick={() => handleProductClick(product.productId)}
-            >
-              <img
-                src={product.images[0]}
-                alt={product.name}
-                className="home-product-image"
-              />
-              <h3 className="home-product-name">{product.name}</h3>
-              <p className="home-product-price">{formatPrice(product.price)}</p>
-            </div>
-          ))}
+        <div className="home-page-wrapper">
+          <Sort onSortChange={handleSortChange} />{" "}
+          {/* Include the Sort component */}
+          <div className="home-products-grid">
+            {filteredProducts.map((product) => (
+              <div
+                className="home-product-card"
+                key={product.productId}
+                onClick={() => handleProductClick(product.productId)}
+              >
+                <img
+                  src={product.images[0]}
+                  alt={product.name}
+                  className="home-product-image"
+                />
+                <h3 className="home-product-name">{product.name}</h3>
+                <p className="home-product-price">
+                  {formatPrice(product.price)}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>

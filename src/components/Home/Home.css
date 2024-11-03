@@ -66,6 +66,13 @@
     z-index: 1000; 
 }
 
+.home-page-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: flex-start;
+}
+
 
 /* Dodatni stilovi za responsivnost */
 @media (max-width: 575.98px) {
