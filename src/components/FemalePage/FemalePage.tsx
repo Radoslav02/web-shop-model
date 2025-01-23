@@ -3,35 +3,36 @@ import { db } from "../firebase";
 import { collection, query, where, getDocs } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import "./FemalePage.css";
+import "../Home/Home.css"
 import { ScaleLoader } from "react-spinners";
-import Filter from "../Filter/Filter"; 
-import Sort from "../Sort/Sort"; // Import the Sort component
-import { useSelector } from 'react-redux'; 
-import { RootState } from "../Redux/store"; 
+import Filter from "../Filter/Filter";
+import Sort from "../Sort/Sort";
+import { useSelector } from "react-redux";
+import { RootState } from "../Redux/store";
 
 type Product = {
   productId: string;
   name: string;
   price: number;
   images: string[];
-  gender: string; 
-  type: string; 
-  category: string; 
-  size: string[]; 
+  gender: string;
+  type: string;
+  category: string;
+  size: string[];
 };
 
 export default function FemalePage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]); 
+  const [filteredProducts, setFilteredProducts] = useState<Product[]>([]);
   const [filters, setFilters] = useState({
     types: [] as string[],
     categories: [] as string[],
     genders: [] as string[],
     sizes: [] as string[],
   });
-  const [sortBy, setSortBy] = useState<string>(''); // State for sorting
-  
+  const [sortBy, setSortBy] = useState<string>("");
+
   const navigate = useNavigate();
   const searchQuery = useSelector((state: RootState) => state.search.query);
 
@@ -51,7 +52,7 @@ export default function FemalePage() {
         })) as Product[];
 
         setProducts(fetchedProducts);
-        setFilteredProducts(fetchedProducts); 
+        setFilteredProducts(fetchedProducts);
       } catch (error) {
         console.error("Error fetching female products: ", error);
       } finally {
@@ -62,19 +63,16 @@ export default function FemalePage() {
     fetchFemaleProducts();
   }, []);
 
-  // Function to apply filters, search, and sort
   useEffect(() => {
     const applyFiltersAndSort = () => {
       let updatedProducts = [...products];
 
-      // Filter by search query
       if (searchQuery) {
         updatedProducts = updatedProducts.filter((product) =>
           product.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
       }
 
-      // Apply filters
       if (filters.types.length > 0) {
         updatedProducts = updatedProducts.filter((product) =>
           filters.types.includes(product.type)
@@ -99,7 +97,6 @@ export default function FemalePage() {
         );
       }
 
-      // Apply sorting
       if (sortBy === "nameAsc") {
         updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
       } else if (sortBy === "nameDesc") {
@@ -114,7 +111,7 @@ export default function FemalePage() {
     };
 
     applyFiltersAndSort();
-  }, [filters, products, searchQuery, sortBy]); // Include sortBy as a dependency
+  }, [filters, products, searchQuery, sortBy]);
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("sr-RS", {
@@ -130,18 +127,19 @@ export default function FemalePage() {
   };
 
   const handleFilterChange = (newFilters: any) => {
-    setFilters(newFilters); 
+    setFilters(newFilters);
   };
 
   const handleSortChange = (sortBy: string) => {
-    setSortBy(sortBy); // Update sortBy state when Sort component changes
+    setSortBy(sortBy);
   };
 
   return (
     <div className="female-page-container">
-      <Filter onFilterChange={handleFilterChange} />
-      <Sort onSortChange={handleSortChange} /> {/* Include Sort component */}
-      
+      <div className="sort-filter-wrapper">
+        <Sort onSortChange={handleSortChange} />
+        <Filter onFilterChange={handleFilterChange} />
+      </div>
       {loading ? (
         <div className="loader">
           <ScaleLoader color="#1abc9c" />
@@ -152,15 +150,18 @@ export default function FemalePage() {
             <div
               className="female-product-card"
               key={product.productId}
-              onClick={() => handleProductClick(product.productId)} 
+              onClick={() => handleProductClick(product.productId)}
             >
               <img
-                src={product.images[0]} 
+                src={product.images[0]}
                 alt={product.name}
                 className="female-product-image"
+                loading="lazy"
               />
               <h3 className="female-product-name">{product.name}</h3>
-              <p className="female-product-price">{formatPrice(product.price)}</p>
+              <p className="female-product-price">
+                {formatPrice(product.price)}
+              </p>
             </div>
           ))}
         </div>

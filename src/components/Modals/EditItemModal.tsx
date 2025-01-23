@@ -185,9 +185,9 @@ const EditItemModal: React.FC<{ product: Product; onClose: () => void }> = ({
   
 
   return (
-    <div className="edit-item-modal-container">
-      <form className="edit-item-form" onSubmit={handleSubmit}>
-        <h2>Izmena proizvoda</h2>
+    <div className="edit-item-modal-container" onClick={onClose}>
+      <form className="edit-item-form" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
+        <h2>Izmena proizvoda</h2> 
 
         <div className="edit-form-group">
           <label htmlFor="name">Naziv:</label>

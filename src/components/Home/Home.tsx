@@ -95,7 +95,7 @@ export default function Home() {
     };
 
     applyFilters();
-  }, [filters, products, searchQuery]); // Include searchQuery as a dependency
+  }, [filters, products, searchQuery]); 
 
   useEffect(() => {
     const sortProducts = () => {
@@ -118,14 +118,13 @@ export default function Home() {
           break;
       }
 
-      // Only update filteredProducts if it has changed
       if (JSON.stringify(filteredProducts) !== JSON.stringify(sortedProducts)) {
         setFilteredProducts(sortedProducts);
       }
     };
 
     sortProducts();
-  }, [sortBy, filteredProducts]); // Include sortBy as a dependency, but manage updates carefully
+  }, [sortBy, filteredProducts]); 
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("sr-RS", {
@@ -150,15 +149,17 @@ export default function Home() {
 
   return (
     <div className="home-page-container">
-      <Filter onFilterChange={handleFilterChange} />
       {loading ? (
         <div className="loader">
           <ScaleLoader color="#1abc9c" />
         </div>
       ) : (
         <div className="home-page-wrapper">
-          <Sort onSortChange={handleSortChange} />{" "}
-          {/* Include the Sort component */}
+          <div className="sort-filter-wrapper">
+          <Sort onSortChange={handleSortChange} />
+          <Filter onFilterChange={handleFilterChange} />
+          </div>
+          
           <div className="home-products-grid">
             {filteredProducts.map((product) => (
               <div
@@ -169,6 +170,7 @@ export default function Home() {
                 <img
                   src={product.images[0]}
                   alt={product.name}
+                  loading="lazy"
                   className="home-product-image"
                 />
                 <h3 className="home-product-name">{product.name}</h3>

@@ -7,7 +7,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./NewItemModal.css";
-import { FirebaseError } from "firebase/app";
+
 
 const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const user = useSelector((state: RootState) => state.auth.user);
@@ -57,51 +57,45 @@ const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const imageUrls: string[] = [];
   
     for (const image of images) {
-      const imageRef = ref(storage, `images/${image.name}`);
-      
-      try {
-        // Try to get the download URL if the image already exists
-        const existingUrl = await getDownloadURL(imageRef);
-        imageUrls.push(existingUrl);
-      } catch (error) {
-        // Narrow down the error type to handle it properly
-        if (error instanceof FirebaseError && error.code === 'storage/object-not-found') {
-          // If the image doesn't exist, upload it
-          const uploadTask = uploadBytesResumable(imageRef, image);
-          
-          const downloadURL = await new Promise<string>((resolve, reject) => {
-            uploadTask.on(
-              "state_changed",
-              (snapshot) => {
-                const progress =
-                  (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                setUploadProgress(progress);
-              },
-              (uploadError) => {
-                reject(uploadError);
-              },
-              async () => {
-                try {
-                  const url = await getDownloadURL(uploadTask.snapshot.ref);
-                  resolve(url);
-                } catch (downloadError) {
-                  reject(downloadError);
-                }
-              }
-            );
-          });
+      const uniqueImageName = `${Date.now()}-${image.name}`; // Dodavanje vremenske oznake za jedinstven naziv
+      const imageRef = ref(storage, `images/${uniqueImageName}`);
   
-          imageUrls.push(downloadURL);
-        } else {
-          // If it's another error, handle it generically
-          toast.error("Error fetching image URL.");
-          console.error("Error fetching image URL:", error);
-        }
+      const uploadTask = uploadBytesResumable(imageRef, image);
+  
+      try {
+        const downloadURL = await new Promise<string>((resolve, reject) => {
+          uploadTask.on(
+            "state_changed",
+            (snapshot) => {
+              const progress =
+                (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+              setUploadProgress(progress);
+            },
+            (uploadError) => {
+              reject(uploadError);
+            },
+            async () => {
+              try {
+                const url = await getDownloadURL(uploadTask.snapshot.ref);
+                resolve(url);
+              } catch (downloadError) {
+                reject(downloadError);
+              }
+            }
+          );
+        });
+  
+        imageUrls.push(downloadURL);
+      } catch (uploadError) {
+        console.error("Error uploading image:", uploadError);
+        toast.error(`Error uploading image: ${image.name}`);
       }
     }
   
     return imageUrls;
   };
+  
+  
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -156,8 +150,8 @@ const NewItemModal: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   }
 
   return (
-    <div className="new-item-modal-container">
-      <form className="new-item-form" onSubmit={handleSubmit}>
+    <div className="new-item-modal-container" onClick={onClose}>
+      <form className="new-item-form" onSubmit={handleSubmit} onClick={(e) => e.stopPropagation()}>
         <h2>Dodavanje proizvoda</h2>
         <div className="new-item-input-wrapper">
           <label>Naziv:</label>

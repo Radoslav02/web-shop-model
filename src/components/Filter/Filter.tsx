@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db } from "../firebase";
 import { collection, getDocs } from "firebase/firestore";
 import "./Filter.css";
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 type FilterProps = {
   onFilterChange: (filters: any) => void;
@@ -18,6 +19,7 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
     genders: [] as string[],
     sizes: [] as string[],
   });
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     const fetchFilterData = async () => {
@@ -73,7 +75,12 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
   };
 
   return (
-    <div className="filter-container">
+      <>
+          <div className="filter-icon" id={drawerOpen ? 'active' : ''} onClick={() => setDrawerOpen(!drawerOpen)}>
+              <FilterAltIcon/>
+          </div>
+          <div className={`drawer-content ${drawerOpen ? 'open' : ''}`}>
+          <div className="filter-container">
       <div className="filter-form">
         <h3>Tip:</h3>
         {types.map((type, index) => (
@@ -133,6 +140,8 @@ const Filter: React.FC<FilterProps> = ({ onFilterChange }) => {
         ))}
       </div>
     </div>
+          </div>
+      </>
   );
 };
 

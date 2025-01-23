@@ -5,11 +5,10 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color: #d1d1d16f;
+  background-color: #ffffff8e;
 }
 
 .register-form {
-  border: 1px solid black;
   min-height: 600px;
   width: 800px;
   display: flex;

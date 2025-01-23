@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { db, storage } from "../firebase";
-import { collection, getDocs, doc, deleteDoc, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  doc,
+  deleteDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { ref, deleteObject } from "firebase/storage";
 import "./AdminPanel.css";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
@@ -9,10 +15,11 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Tooltip from "@mui/material/Tooltip";
 import { ScaleLoader } from "react-spinners";
 import EditItemModal from "../Modals/EditItemModal";
-import Filter from "../Filter/Filter"; // Import the Filter component
+import Filter from "../Filter/Filter"; 
 import { useSelector } from "react-redux";
 import { RootState } from "../Redux/store";
-import Sort from "../Sort/Sort"; // Import the Sort component
+import Sort from "../Sort/Sort";
+
 
 type Product = {
   productId: string;
@@ -34,7 +41,9 @@ export default function AdminPanel() {
   const [loading, setLoading] = useState<boolean>(true);
   const [selectedImageIndex, setSelectedImageIndex] = useState<number[]>([]);
   const [refreshProducts, setRefreshProducts] = useState<boolean>(false);
-  const [deletingProductId, setDeletingProductId] = useState<string | null>(null);
+  const [deletingProductId, setDeletingProductId] = useState<string | null>(
+    null
+  );
   const [editItemClicked, setEditItemClicked] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [filters, setFilters] = useState({
@@ -43,9 +52,9 @@ export default function AdminPanel() {
     genders: [] as string[],
     sizes: [] as string[],
   });
-  const [sortBy, setSortBy] = useState<string>("nameAsc"); // State to store the selected sorting option
+  const [sortBy, setSortBy] = useState<string>("nameAsc"); 
 
-  const searchQuery = useSelector((state: RootState) => state.search.query); // Search query from Redux store
+  const searchQuery = useSelector((state: RootState) => state.search.query); 
 
   const handleNewItemClicked = () => {
     setNewItemClicked(true);
@@ -62,7 +71,10 @@ export default function AdminPanel() {
     setRefreshProducts(true);
   };
 
-  const handleImageSelect = async (productIndex: number, imageIndex: number) => {
+  const handleImageSelect = async (
+    productIndex: number,
+    imageIndex: number
+  ) => {
     const updatedSelectedImageIndex = [...selectedImageIndex];
     updatedSelectedImageIndex[productIndex] = imageIndex;
     setSelectedImageIndex(updatedSelectedImageIndex);
@@ -90,7 +102,11 @@ export default function AdminPanel() {
     }).format(price);
   };
 
-  const deleteProduct = async (event: React.MouseEvent<SVGSVGElement>, productId: string, images: string[]) => {
+  const deleteProduct = async (
+    event: React.MouseEvent<SVGSVGElement>,
+    productId: string,
+    images: string[]
+  ) => {
     event.stopPropagation();
 
     try {
@@ -104,7 +120,9 @@ export default function AdminPanel() {
       });
       await Promise.all(deleteImagePromises);
 
-      setProducts(products.filter((product) => product.productId !== productId));
+      setProducts(
+        products.filter((product) => product.productId !== productId)
+      );
       console.log("Product and images deleted successfully.");
     } catch (error) {
       console.error("Error deleting product: ", error);
@@ -148,14 +166,12 @@ export default function AdminPanel() {
     const applyFiltersAndSearch = () => {
       let updatedProducts = [...products];
 
-      // Apply search filter
       if (searchQuery) {
         updatedProducts = updatedProducts.filter((product) =>
           product.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
       }
 
-      // Apply additional filters
       if (filters.types.length > 0) {
         updatedProducts = updatedProducts.filter((product) =>
           filters.types.includes(product.type)
@@ -180,7 +196,6 @@ export default function AdminPanel() {
         );
       }
 
-      // Apply sorting
       if (sortBy === "nameAsc") {
         updatedProducts.sort((a, b) => a.name.localeCompare(b.name));
       } else if (sortBy === "nameDesc") {
@@ -201,15 +216,19 @@ export default function AdminPanel() {
     setSelectedProduct(product);
     setEditItemClicked(true);
   };
+  
 
   return (
     <div className="admin-panel-container">
       {newItemClicked && <AddItemModal onClose={handleCloseAddItemModal} />}
       {editItemClicked && selectedProduct && (
-        <EditItemModal product={selectedProduct} onClose={handleCloseEditItemModal} />
+        <EditItemModal
+          product={selectedProduct}
+          onClose={handleCloseEditItemModal}
+        />
       )}
       <Filter onFilterChange={handleFilterChange} />
-      <Sort onSortChange={handleSortChange} /> {/* Add Sort Component */}
+      <Sort onSortChange={handleSortChange} />
       <div className="product-list">
         <div className="add-item-card" onClick={handleNewItemClicked}>
           <AddCircleIcon className="add-icon" sx={{ fontSize: 80 }} />
@@ -220,30 +239,38 @@ export default function AdminPanel() {
           </div>
         ) : filteredProducts.length > 0 ? (
           filteredProducts.map((product, index) => (
-            <div key={product.productId} className="product-card" onClick={() => handleEditItemClick(product)}>
+            <div
+              key={product.productId}
+              className="product-card"
+              onClick={() => handleEditItemClick(product)}
+            >
               <div className="product-image-container">
                 {product.images.length > 0 ? (
                   <img
                     src={product.images[selectedImageIndex[index]]}
                     alt={`Product image ${selectedImageIndex[index] + 1}`}
                     className="product-image"
+                    loading="lazy"
                   />
                 ) : (
                   <p>Nema dostupnih slika.</p>
                 )}
               </div>
               <div className="image-selector">
-                {product.images.map((_, imageIndex) => (
-                  <button
+                {product.images.map((image, imageIndex) => (
+                  <img
                     key={imageIndex}
+                    src={image}
+                    alt={`Thumbnail ${imageIndex + 1}`}
                     onClick={(event) => {
                       event.stopPropagation();
                       handleImageSelect(index, imageIndex);
                     }}
-                    className={selectedImageIndex[index] === imageIndex ? "selected" : ""}
-                  >
-                    {imageIndex + 1}
-                  </button>
+                    className={`thumbnail ${
+                      selectedImageIndex[index] === imageIndex ? "selected" : ""
+                    }`}
+                    loading="lazy"
+                  />
                 ))}
               </div>
               <Tooltip
@@ -267,7 +294,10 @@ export default function AdminPanel() {
               <div className="price-icon-wrapper">
                 <p>{formatPrice(product.price)}</p>
                 <DeleteIcon
-                  onClick={(event) => !deletingProductId && deleteProduct(event, product.productId, product.images)}
+                  onClick={(event) =>
+                    !deletingProductId &&
+                    deleteProduct(event, product.productId, product.images)
+                  }
                   className="delete-icon"
                   style={{
                     cursor: deletingProductId ? "not-allowed" : "pointer",

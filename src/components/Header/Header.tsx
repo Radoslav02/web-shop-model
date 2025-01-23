@@ -60,7 +60,7 @@ export default function Header() {
             <label className="header-menu-label">Admin</label>
           </div>
         )}
-        <div className="contact-container">
+        <div className="contact-container" onClick={() => navigate("/kontakt")}>
           <PhoneOutlinedIcon sx={{ fontSize: 40 }} />
           <label className="header-menu-label">Kontakt</label>
         </div>

@@ -30,7 +30,7 @@ export default function MalePage() {
     genders: [] as string[],
     sizes: [] as string[],
   });
-  const [sortBy, setSortBy] = useState<string>(''); // State for sorting
+  const [sortBy, setSortBy] = useState<string>(''); 
   
   const navigate = useNavigate();
   const searchQuery = useSelector((state: RootState) => state.search.query); 
@@ -66,14 +66,14 @@ export default function MalePage() {
     const applyFiltersAndSort = () => {
       let updatedProducts = [...products];
 
-      // Filter by search query
+    
       if (searchQuery) {
         updatedProducts = updatedProducts.filter((product) =>
           product.name.toLowerCase().includes(searchQuery.toLowerCase())
         );
       }
 
-      // Apply filters
+     
       if (filters.types.length > 0) {
         updatedProducts = updatedProducts.filter((product) =>
           filters.types.includes(product.type)
@@ -113,7 +113,7 @@ export default function MalePage() {
     };
 
     applyFiltersAndSort();
-  }, [filters, products, searchQuery, sortBy]); // Include sortBy as a dependency
+  }, [filters, products, searchQuery, sortBy]); 
 
   const formatPrice = (price: number) => {
     return new Intl.NumberFormat("sr-RS", {
@@ -133,14 +133,16 @@ export default function MalePage() {
   };
 
   const handleSortChange = (sortBy: string) => {
-    setSortBy(sortBy); // Update sortBy state when Sort component changes
+    setSortBy(sortBy); 
   };
 
   return (
     <div className="male-page-container">
-      <Filter onFilterChange={handleFilterChange} />
-      <Sort onSortChange={handleSortChange} /> {/* Include Sort component */}
-
+    <div className="sort-filter-wrapper">
+          <Sort onSortChange={handleSortChange} />
+          <Filter onFilterChange={handleFilterChange} />
+          </div>
+          
       {loading ? (
         <div className="loader">
           <ScaleLoader color="#1abc9c" />
@@ -157,6 +159,7 @@ export default function MalePage() {
                 src={product.images[0]} 
                 alt={product.name}
                 className="male-product-image"
+                loading="lazy"
               />
               <h3 className="male-product-name">{product.name}</h3>
               <p className="male-product-price">{formatPrice(product.price)}</p>

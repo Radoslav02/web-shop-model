@@ -5,11 +5,10 @@
   justify-content: center;
   align-items: center;
   padding: 20px;
-  background-color: #d1d1d16f;
+  background-color: #ffffff8e;
 }
 
 .login-page-form {
-  border: 1px solid black;
   height: 30vw;
   width: 30%;
   display: flex;

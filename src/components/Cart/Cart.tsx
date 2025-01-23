@@ -4,6 +4,7 @@ import { RootState } from "../Redux/store";
 import { removeFromCart } from "../Redux/cartSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "./Cart.css";
+import { Button } from "@mui/material";
 
 export default function Cart() {
   const dispatch = useDispatch();
@@ -83,10 +84,10 @@ export default function Cart() {
           </div>
 
           <div className="cart-button-wrapper">
-            <button className="to-home-button" onClick={() => navigate("/početna")}>Početna</button>
-            <button onClick={handleOrder} className="order-button">
+            <Button  variant='contained' sx={{backgroundColor:'primary.main'}} className="to-home-button" onClick={() => navigate("/početna")}>Početna</Button>
+            <Button variant='contained' sx={{backgroundColor:'primary.main'}} onClick={handleOrder} className="order-button">
               Poruči
-            </button>
+            </Button>
           </div>
         </div>
       )}
